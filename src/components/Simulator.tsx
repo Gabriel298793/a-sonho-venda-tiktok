@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Bot, Zap, ArrowRight, CheckCircle2, Smartphone, Users, MessageSquare, Activity } from 'lucide-react';
+import { createPortal } from 'react-dom';
+import { Bot, Zap, ArrowRight, CheckCircle2, Smartphone, Users, MessageSquare, Activity, Clock, TrendingUp } from 'lucide-react';
 
 type ActivationStep = 'idle' | 'form' | 'loading' | 'qr' | 'connected' | 'manual-chat';
 
@@ -45,6 +46,10 @@ export function Simulator({ onCheckout }: { onCheckout?: () => void }) {
   ]);
   const [manualInput, setManualInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  
+  // Conversion state
+  const [conversionCard, setConversionCard] = useState<{title: string, duration: string, type: 'agendado'|'venda'} | null>(null);
+  const [chatStartTime, setChatStartTime] = useState<number | null>(null);
 
   // Rotate fake chats in idle mode
   useEffect(() => {
@@ -138,6 +143,10 @@ export function Simulator({ onCheckout }: { onCheckout?: () => void }) {
     e.preventDefault();
     if (!manualInput.trim()) return;
 
+    if (!chatStartTime) {
+      setChatStartTime(Date.now());
+    }
+
     const userMsg = manualInput;
     setManualMessages(prev => [...prev, { role: 'user', text: userMsg }]);
     setManualInput('');
@@ -153,8 +162,32 @@ export function Simulator({ onCheckout }: { onCheckout?: () => void }) {
           ...formData
         })
       });
-      const data = await response.json();
-      setManualMessages(prev => [...prev, { role: 'bot', text: data.resposta || "Mensagem simulada." }]);
+      const rawData = await response.json();
+      // Handle both object or array since n8n might return an array
+      const data = Array.isArray(rawData) ? rawData[0] : rawData;
+      
+      setManualMessages(prev => [...prev, { role: 'bot', text: data.resposta || data.response || "Mensagem simulada." }]);
+
+      // Check conversion
+      if (data.conversion_status && (data.conversion_status.toLowerCase() === 'agendado' || data.conversion_status.toLowerCase() === 'venda')) {
+         const type = data.conversion_status.toLowerCase() as 'agendado' | 'venda';
+         let durationStr = "0m 0s";
+         if (chatStartTime) {
+            const diff = Math.floor((Date.now() - chatStartTime) / 1000);
+            const m = Math.floor(diff / 60);
+            const s = diff % 60;
+            durationStr = `${m}m ${s}s`;
+         } else {
+            // fallback if it somehow converted on first message
+            durationStr = "0m 10s";
+         }
+         setConversionCard({
+           title: type === 'venda' ? 'Venda Realizada!' : 'Agendamento Confirmado!',
+           duration: durationStr,
+           type: type
+         });
+      }
+
     } catch (error) {
       console.error("Erro no chat manual:", error);
       setTimeout(() => {
@@ -164,6 +197,25 @@ export function Simulator({ onCheckout }: { onCheckout?: () => void }) {
       setIsTyping(false);
     }
   };
+
+  // Mock WPP Conversion after connected
+  useEffect(() => {
+    if (activationStep === 'connected') {
+      const timer = setTimeout(() => {
+        // Random time between 2m 00s to 3m 00s
+        const minutes = Math.floor(Math.random() * 2) + 2; // 2 or 3
+        const seconds = minutes === 3 ? 0 : Math.floor(Math.random() * 60);
+        setConversionCard({
+          title: 'Conversão Detectada',
+          duration: `${minutes}m ${seconds}s`,
+          type: 'agendado'
+        });
+      }, 15000); // show after 15 seconds
+      return () => clearTimeout(timer);
+    } else {
+      setConversionCard(null);
+    }
+  }, [activationStep]);
 
   const simData = chatSimulations[currentSimIndex];
 
@@ -445,6 +497,113 @@ export function Simulator({ onCheckout }: { onCheckout?: () => void }) {
               </button>
             </div>
           </div>
+        )}
+
+        {/* HIGH CONVERSION MODAL OVERLAY */}
+        {conversionCard && createPortal(
+          <div className="modal-overlay" style={{ animation: 'fadeIn 0.3s ease-out' }}>
+            <div className="modal-content" style={{
+              background: 'linear-gradient(180deg, #1e293b 0%, #0f172a 100%)',
+              border: '1px solid rgba(139, 92, 246, 0.4)',
+              borderRadius: '24px',
+              padding: '2.5rem 2rem',
+              maxWidth: '550px',
+              width: '100%',
+              boxShadow: '0 25px 50px -12px rgba(139, 92, 246, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              textAlign: 'center',
+              position: 'relative',
+              overflow: 'hidden'
+            }}>
+               {/* Neon glow effect in background */}
+               <div style={{ position: 'absolute', top: '-50px', left: '50%', transform: 'translateX(-50%)', width: '200px', height: '200px', background: 'rgba(139, 92, 246, 0.3)', filter: 'blur(50px)', borderRadius: '50%', zIndex: 0, pointerEvents: 'none' }}></div>
+
+               <div style={{
+                 position: 'relative',
+                 zIndex: 1,
+                 display: 'inline-flex',
+                 alignItems: 'center',
+                 gap: '8px',
+                 background: 'rgba(16, 185, 129, 0.15)',
+                 border: '1px solid rgba(16, 185, 129, 0.4)',
+                 padding: '8px 20px',
+                 borderRadius: '99px',
+                 color: 'var(--success)',
+                 fontWeight: 700,
+                 fontSize: '0.95rem',
+                 marginBottom: '1.5rem',
+                 animation: 'pulseGlow 2s infinite'
+               }}>
+                 <CheckCircle2 size={18} /> 
+                 {conversionCard.type === 'venda' ? 'Cliente convertido automaticamente' : 'Agendamento concluído'}
+               </div>
+
+               <h2 style={{ position: 'relative', zIndex: 1, fontSize: '1.8rem', fontWeight: 800, color: 'white', lineHeight: 1.2, marginBottom: '1rem', letterSpacing: '-0.02em' }}>
+                 Enquanto você trabalhava, seu atendimento <span className="text-gradient">continuou acontecendo.</span>
+               </h2>
+
+               <p style={{ position: 'relative', zIndex: 1, color: 'var(--text-muted)', fontSize: '1.05rem', lineHeight: 1.5, marginBottom: '2rem' }}>
+                 Esse mesmo sistema pode ser implementado na sua <strong style={{ color: 'white' }}>{formData.businessName || formData.niche || 'empresa'}</strong> para responder clientes, organizar agendamentos e evitar perda de vendas no WhatsApp.
+               </p>
+
+               {/* Metrics Grid */}
+               <div style={{ position: 'relative', zIndex: 1, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', width: '100%', marginBottom: '2.5rem' }}>
+                 
+                 <div style={{ background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '16px', padding: '1.2rem 1rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', transition: 'transform 0.3s' }}>
+                   <Clock size={28} color="var(--primary)" />
+                   <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Tempo economizado</div>
+                   <div style={{ fontSize: '1.15rem', fontWeight: 800, color: 'white' }}>2h 17min hoje</div>
+                 </div>
+
+                 <div style={{ background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '16px', padding: '1.2rem 1rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', transition: 'transform 0.3s' }}>
+                   <Zap size={28} color="var(--success)" />
+                   <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Resposta automática</div>
+                   <div style={{ fontSize: '1.15rem', fontWeight: 800, color: 'white' }}>Em 5 seg</div>
+                 </div>
+
+                 <div style={{ background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '16px', padding: '1.2rem 1rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', transition: 'transform 0.3s' }}>
+                   <Activity size={28} color="#3b82f6" />
+                   <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Atendimento ativo</div>
+                   <div style={{ fontSize: '1.15rem', fontWeight: 800, color: 'white' }}>24h / 7 dias</div>
+                 </div>
+
+                 <div style={{ background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '16px', padding: '1.2rem 1rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', textAlign: 'center', transition: 'transform 0.3s' }}>
+                   <TrendingUp size={28} color="#f59e0b" />
+                   <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Conversão real</div>
+                   <div style={{ fontSize: '1.15rem', fontWeight: 800, color: 'white' }}>+ 300% chance</div>
+                 </div>
+
+               </div>
+
+               <button 
+                  onClick={() => {
+                     setConversionCard(null);
+                     if (onCheckout) onCheckout();
+                  }}
+                  className="btn btn-primary" 
+                  style={{ position: 'relative', zIndex: 1, width: '100%', padding: '1.2rem', fontSize: '1.15rem', fontWeight: 700, borderRadius: '12px', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px', boxShadow: '0 0 20px var(--primary-glow)' }}
+               >
+                 Quero implementar isso na minha {formData.niche || 'empresa'}
+                 <ArrowRight size={20} />
+               </button>
+               <div style={{ position: 'relative', zIndex: 1, color: 'var(--text-muted)', fontSize: '0.9rem', marginTop: '1.2rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                 <CheckCircle2 size={14} color="var(--success)" /> Configuração personalizada para seu negócio.
+               </div>
+
+               <button 
+                  onClick={() => setConversionCard(null)}
+                  style={{ position: 'relative', zIndex: 1, background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.3)', fontSize: '0.8rem', marginTop: '1.5rem', cursor: 'pointer', transition: 'color 0.2s' }}
+                  onMouseEnter={e => e.currentTarget.style.color = 'rgba(255,255,255,0.7)'}
+                  onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.3)'}
+               >
+                 Fechar e voltar para o teste
+               </button>
+
+            </div>
+          </div>,
+          document.body
         )}
 
       </div>
