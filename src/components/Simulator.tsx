@@ -144,17 +144,17 @@ export function Simulator({ onCheckout }: { onCheckout?: () => void }) {
     setIsTyping(true);
 
     try {
-      const response = await fetch('https://asonho-backend-gabriel.fly.dev/api/chat', {
+      const response = await fetch('https://n8n-stack-n8n.29xxar.easypanel.host/webhook/a-sonho-site', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           message: userMsg,
           sessionId: instanceName || 'manual-session',
           ...formData
         })
       });
       const data = await response.json();
-      setManualMessages(prev => [...prev, { role: 'bot', text: data.response || "Mensagem simulada." }]);
+      setManualMessages(prev => [...prev, { role: 'bot', text: data.response || data.output || data.text || "Mensagem simulada." }]);
     } catch (error) {
       console.error("Erro no chat manual:", error);
       setTimeout(() => {
