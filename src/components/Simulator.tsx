@@ -154,7 +154,7 @@ export function Simulator({ onCheckout }: { onCheckout?: () => void }) {
         })
       });
       const data = await response.json();
-      setManualMessages(prev => [...prev, { role: 'bot', text: data.response || data.output || data.text || "Mensagem simulada." }]);
+      setManualMessages(prev => [...prev, { role: 'bot', text: data.resposta || "Mensagem simulada." }]);
     } catch (error) {
       console.error("Erro no chat manual:", error);
       setTimeout(() => {
