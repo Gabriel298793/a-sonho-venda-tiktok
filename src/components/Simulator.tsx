@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Bot, Zap, ArrowRight, CheckCircle2, QrCode, Smartphone, Users, MessageSquare, Activity } from 'lucide-react';
+import { Bot, Zap, ArrowRight, CheckCircle2, Smartphone, Users, MessageSquare, Activity } from 'lucide-react';
 
 type ActivationStep = 'idle' | 'form' | 'loading' | 'qr' | 'connected' | 'manual-chat';
 
