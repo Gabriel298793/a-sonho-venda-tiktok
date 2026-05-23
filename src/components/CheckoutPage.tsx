@@ -1,10 +1,15 @@
 import { Check, ChevronLeft, ArrowRight } from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 interface CheckoutPageProps {
-  onBack: () => void;
+  onBack?: () => void;
 }
 
 export function CheckoutPage({ onBack }: CheckoutPageProps) {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const simulou = location.state?.simulou === true;
+
   const phone = "5535984295953";
 
   const plans = [
@@ -155,51 +160,67 @@ export function CheckoutPage({ onBack }: CheckoutPageProps) {
         `}
       </style>
 
-      <button onClick={onBack} style={{ position: 'absolute', top: '1.5rem', left: '1.5rem', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', padding: '8px 16px', borderRadius: '99px', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer', fontSize: '0.9rem', transition: 'all 0.2s', zIndex: 20 }}>
+      <button onClick={() => onBack ? onBack() : navigate('/')} style={{ position: 'absolute', top: '1.5rem', left: '1.5rem', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', padding: '8px 16px', borderRadius: '99px', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer', fontSize: '0.9rem', transition: 'all 0.2s', zIndex: 20 }}>
         <ChevronLeft size={16} /> Voltar
       </button>
 
       <div style={{ width: '100%', marginTop: '3rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         
-        {/* Intro Text */}
-        <div style={{ textAlign: 'center', marginBottom: '3rem', maxWidth: '650px' }}>
-          <h1 style={{ fontSize: '2.5rem', fontWeight: 900, color: 'white', marginBottom: '1rem', lineHeight: 1.1, letterSpacing: '-0.5px' }}>
-            Você acabou de testar.
-          </h1>
-          <p style={{ fontSize: '1.15rem', color: 'var(--text-muted)' }}>
-            Imagina isso rodando no seu negócio 24h por dia. Escolhe o plano que mais combina:
-          </p>
-        </div>
+        {simulou ? (
+          <>
+            {/* Intro Text */}
+            <div style={{ textAlign: 'center', marginBottom: '3rem', maxWidth: '650px' }}>
+              <h1 style={{ fontSize: '2.5rem', fontWeight: 900, color: 'white', marginBottom: '1rem', lineHeight: 1.1, letterSpacing: '-0.5px' }}>
+                Você acabou de testar.
+              </h1>
+              <p style={{ fontSize: '1.15rem', color: 'var(--text-muted)' }}>
+                Imagina isso rodando no seu negócio 24h por dia. Escolhe o plano que mais combina:
+              </p>
+            </div>
 
-        {/* Reforço da Experiência */}
-        <div style={{ background: 'rgba(15, 23, 42, 0.5)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '24px', padding: '2.5rem', maxWidth: '650px', width: '100%', marginBottom: '2rem', textAlign: 'center' }}>
-          <h2 style={{ fontSize: '2rem', fontWeight: 900, color: 'white', marginBottom: '1.5rem', fontFamily: 'system-ui, -apple-system, sans-serif', letterSpacing: '-0.5px' }}>
-            VOCÊ ACABOU DE:
-          </h2>
-          <ul style={{ listStyle: 'none', padding: 0, margin: '0 auto 2rem auto', display: 'flex', flexDirection: 'column', gap: '1rem', alignItems: 'center', maxWidth: 'max-content' }}>
-            <li style={{ display: 'flex', alignItems: 'center', gap: '12px', color: 'white', fontSize: '1.1rem', fontWeight: 500 }}>
-              <div style={{ color: 'var(--success)' }}>
-                <Check size={22} strokeWidth={3} />
-              </div>
-              Conversar com um agente IA real
-            </li>
-            <li style={{ display: 'flex', alignItems: 'center', gap: '12px', color: 'white', fontSize: '1.1rem', fontWeight: 500 }}>
-              <div style={{ color: 'var(--success)' }}>
-                <Check size={22} strokeWidth={3} />
-              </div>
-              Ver ele entender o que você queria
-            </li>
-            <li style={{ display: 'flex', alignItems: 'center', gap: '12px', color: 'white', fontSize: '1.1rem', fontWeight: 500 }}>
-              <div style={{ color: 'var(--success)' }}>
-                <Check size={22} strokeWidth={3} />
-              </div>
-              Economizar tempo do seu atendimento
-            </li>
-          </ul>
-          <p style={{ fontSize: '1.1rem', color: 'var(--primary)', fontWeight: 600, maxWidth: '500px', margin: '0 auto', lineHeight: 1.4 }}>
-            "Imagina isso 24h por dia, 30 dias por mês, no SEU WhatsApp, atendendo SEUS clientes."
-          </p>
-        </div>
+            {/* Reforço da Experiência */}
+            <div style={{ background: 'rgba(15, 23, 42, 0.5)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '24px', padding: '2.5rem', maxWidth: '650px', width: '100%', marginBottom: '2rem', textAlign: 'center' }}>
+              <h2 style={{ fontSize: '2rem', fontWeight: 900, color: 'white', marginBottom: '1.5rem', fontFamily: 'system-ui, -apple-system, sans-serif', letterSpacing: '-0.5px' }}>
+                VOCÊ ACABOU DE:
+              </h2>
+              <ul style={{ listStyle: 'none', padding: 0, margin: '0 auto 2rem auto', display: 'flex', flexDirection: 'column', gap: '1rem', alignItems: 'center', maxWidth: 'max-content' }}>
+                <li style={{ display: 'flex', alignItems: 'center', gap: '12px', color: 'white', fontSize: '1.1rem', fontWeight: 500 }}>
+                  <div style={{ color: 'var(--success)' }}>
+                    <Check size={22} strokeWidth={3} />
+                  </div>
+                  Conversar com um agente IA real
+                </li>
+                <li style={{ display: 'flex', alignItems: 'center', gap: '12px', color: 'white', fontSize: '1.1rem', fontWeight: 500 }}>
+                  <div style={{ color: 'var(--success)' }}>
+                    <Check size={22} strokeWidth={3} />
+                  </div>
+                  Ver ele entender o que você queria
+                </li>
+                <li style={{ display: 'flex', alignItems: 'center', gap: '12px', color: 'white', fontSize: '1.1rem', fontWeight: 500 }}>
+                  <div style={{ color: 'var(--success)' }}>
+                    <Check size={22} strokeWidth={3} />
+                  </div>
+                  Economizar tempo do seu atendimento
+                </li>
+              </ul>
+              <p style={{ fontSize: '1.1rem', color: 'var(--primary)', fontWeight: 600, maxWidth: '500px', margin: '0 auto', lineHeight: 1.4 }}>
+                "Imagina isso 24h por dia, 30 dias por mês, no SEU WhatsApp, atendendo SEUS clientes."
+              </p>
+            </div>
+          </>
+        ) : (
+          <>
+            {/* Intro Text */}
+            <div style={{ textAlign: 'center', marginBottom: '3rem', maxWidth: '650px' }}>
+              <h1 style={{ fontSize: '2.5rem', fontWeight: 900, color: 'white', marginBottom: '1rem', lineHeight: 1.1, letterSpacing: '-0.5px' }}>
+                Escolha o Plano Ideal para seu Negócio
+              </h1>
+              <p style={{ fontSize: '1.15rem', color: 'var(--text-muted)' }}>
+                Automatize seu atendimento, qualifique leads e venda 24 horas por dia no WhatsApp.
+              </p>
+            </div>
+          </>
+        )}
 
         {/* Filtro de Escolha */}
         <div style={{ maxWidth: '650px', width: '100%', marginBottom: '4rem', textAlign: 'center' }}>

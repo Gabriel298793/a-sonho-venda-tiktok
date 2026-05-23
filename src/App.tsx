@@ -1,20 +1,16 @@
-import { useState } from 'react';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import { Simulator } from './components/Simulator';
 import { Testimonials } from './components/Testimonials';
 import { PortfolioCarousel } from './components/PortfolioCarousel';
 import { CheckoutPage } from './components/CheckoutPage';
 import { Sparkles, TrendingUp, Zap, Clock, ShieldCheck, ChevronRight } from 'lucide-react';
 
-function App() {
-  const [showCheckout, setShowCheckout] = useState(false);
+function LandingPage() {
+  const navigate = useNavigate();
   const handleTestClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     window.dispatchEvent(new Event('activateSimulator'));
   };
-
-  if (showCheckout) {
-    return <CheckoutPage onBack={() => setShowCheckout(false)} />;
-  }
 
   return (
     <>
@@ -57,7 +53,7 @@ function App() {
             {/* Simulador Appears Next to Hero */}
             <div className="animate-fade-in-up delay-200" id="simulator">
               <div style={{ position: 'relative' }}>
-                <Simulator onCheckout={() => setShowCheckout(true)} />
+                <Simulator onCheckout={() => navigate('/ativar-sistema', { state: { simulou: true } })} />
               </div>
             </div>
 
@@ -134,7 +130,7 @@ function App() {
           <p style={{ fontSize: '1.2rem', color: 'var(--text-muted)', marginBottom: '3rem', maxWidth: '600px', margin: '0 auto 3rem' }}>
             Junte-se às empresas que já estão economizando tempo e dobrando o faturamento com nossa automação.
           </p>
-          <button onClick={() => setShowCheckout(true)} className="btn btn-primary" style={{ fontSize: '1.25rem', padding: '1.25rem 3rem', borderRadius: '99px' }}>
+          <button onClick={() => navigate('/ativar-sistema')} className="btn btn-primary" style={{ fontSize: '1.25rem', padding: '1.25rem 3rem', borderRadius: '99px' }}>
             <Zap size={24} /> Quero isso no meu WhatsApp
           </button>
           
@@ -165,6 +161,16 @@ function App() {
         <p>&copy; 2026 Atendente Automático. Todos os direitos reservados.</p>
       </footer>
     </>
+  );
+}
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/ativar-sistema" element={<CheckoutPage />} />
+      <Route path="*" element={<LandingPage />} />
+    </Routes>
   );
 }
 
