@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Check, ChevronLeft, ArrowRight } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
@@ -9,6 +10,10 @@ export function CheckoutPage({ onBack }: CheckoutPageProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const simulou = location.state?.simulou === true;
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const phone = "5535984295953";
 
