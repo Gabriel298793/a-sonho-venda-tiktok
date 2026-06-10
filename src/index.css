@@ -151,6 +151,23 @@ section {
   box-shadow: 0 20px 40px rgba(0,0,0,0.4);
 }
 
+/* Fullscreen active simulator on mobile */
+@media (max-width: 768px) {
+  .glass-card.simulator-active {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 0 !important;
+    border: none !important;
+    z-index: 1000 !important;
+    margin: 0 !important;
+  }
+}
+
 /* Features */
 .features-grid {
   display: grid;

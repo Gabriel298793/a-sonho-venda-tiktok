@@ -18,22 +18,24 @@ export function CheckoutPage({ onBack }: CheckoutPageProps) {
       name: 'Simples',
       tag: 'MAIS BARATO',
       price: '147',
+      originalPrice: '247',
       setup: '147',
       target: 'Ideal pra você se: atende sozinho ou tem só 1 ajudante',
       features: [
-        'Agente IA no seu WhatsApp 24h',
+        'Atendente automático no seu WhatsApp 24h',
         'Agendamento automático em planilha',
         'Lembrete de horário pro cliente',
         'Implementação em 7 dias',
         'Suporte por 30 dias'
       ],
-      link: `https://wa.me/${phone}?text=Oi!%20Acabei%20de%20testar%20o%20agente%20no%20site%20e%20quero%20o%20plano%20Simples%20(R%24147)`
+      link: `https://wa.me/${phone}?text=Oi!%20Acabei%20de%20testar%20o%20atendente%20no%20site%20e%20quero%20o%20plano%20Simples%20(R%24147)`
     },
     {
       id: 'medio',
       name: 'Médio',
       tag: 'RECOMENDADO',
       price: '247',
+      originalPrice: '397',
       setup: '297',
       target: 'Ideal pra você se: tem recepção e agenda cheia todo dia',
       isPopular: true,
@@ -45,23 +47,24 @@ export function CheckoutPage({ onBack }: CheckoutPageProps) {
         'Lógica condicional (qualifica cliente)',
         'Relatório mensal de atendimentos'
       ],
-      link: `https://wa.me/${phone}?text=Oi!%20Acabei%20de%20testar%20o%20agente%20no%20site%20e%20quero%20o%20plano%20Médio%20(R%24247)`
+      link: `https://wa.me/${phone}?text=Oi!%20Acabei%20de%20testar%20o%20atendente%20no%20site%20e%20quero%20o%20plano%20Médio%20(R%24247)`
     },
     {
       id: 'avancado',
       name: 'Avançado',
       tag: 'PRO',
       price: '397',
+      originalPrice: '597',
       setup: '497',
       target: 'Ideal pra você se: tem volume alto e mais de 1 atendente',
       features: [
         'Tudo do Médio',
-        'Sub-agentes especializados',
+        'Sub-atendentes especializados',
         'Integração customizada com sistema próprio',
         'Suporte prioritário',
         'Otimização contínua'
       ],
-      link: `https://wa.me/${phone}?text=Oi!%20Acabei%20de%20testar%20o%20agente%20no%20site%20e%20quero%20o%20plano%20Avançado%20(R%24397)`
+      link: `https://wa.me/${phone}?text=Oi!%20Acabei%20de%20testar%20o%20atendente%20no%20site%20e%20quero%20o%20plano%20Avançado%20(R%24397)`
     }
   ];
 
@@ -188,7 +191,7 @@ export function CheckoutPage({ onBack }: CheckoutPageProps) {
                   <div style={{ color: 'var(--success)' }}>
                     <Check size={22} strokeWidth={3} />
                   </div>
-                  Conversar com um agente IA real
+                  Conversar com um atendente automático real
                 </li>
                 <li style={{ display: 'flex', alignItems: 'center', gap: '12px', color: 'white', fontSize: '1.1rem', fontWeight: 500 }}>
                   <div style={{ color: 'var(--success)' }}>
@@ -222,6 +225,34 @@ export function CheckoutPage({ onBack }: CheckoutPageProps) {
           </>
         )}
 
+        {/* Banner de Urgência / Preço Promocional */}
+        <div style={{
+          background: 'rgba(239, 68, 68, 0.1)',
+          border: '1px solid rgba(239, 68, 68, 0.3)',
+          borderRadius: '16px',
+          padding: '1.25rem 1.5rem',
+          maxWidth: '650px',
+          width: '100%',
+          marginBottom: '3rem',
+          textAlign: 'left',
+          color: '#fca5a5',
+          fontSize: '0.95rem',
+          lineHeight: 1.5,
+          display: 'flex',
+          alignItems: 'flex-start',
+          gap: '12px',
+          boxShadow: '0 4px 20px rgba(239, 68, 68, 0.05)',
+          animation: 'fadeIn 0.5s ease-out'
+        }}>
+          <span style={{ fontSize: '1.5rem', lineHeight: 1 }}>🚨</span>
+          <div>
+            <strong style={{ color: 'white', display: 'block', marginBottom: '4px', fontSize: '1rem' }}>
+              CONDIÇÃO PROMOCIONAL ATIVA (VERSÃO 2.0)
+            </strong>
+            Estes valores são válidos temporariamente devido ao lançamento da nossa <strong>versão 2.0 com novos sub-atendentes automáticos</strong>. Garantimos o desconto mensal vitalício apenas para as próximas <strong>3 ativações</strong> desta semana. Após isso, as assinaturas retornarão ao valor de tabela (reajuste de +R$ 100/mês).
+          </div>
+        </div>
+
         {/* Filtro de Escolha */}
         <div style={{ maxWidth: '650px', width: '100%', marginBottom: '4rem', textAlign: 'center' }}>
           <h3 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'white', marginBottom: '1.5rem', letterSpacing: '0.5px' }}>
@@ -253,10 +284,15 @@ export function CheckoutPage({ onBack }: CheckoutPageProps) {
                 <h3 style={{ color: 'var(--text-muted)', fontSize: '1.1rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '1rem' }}>
                   {plan.name}
                 </h3>
-                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'baseline', gap: '4px' }}>
-                  <span style={{ fontSize: '1.5rem', fontWeight: 600, color: 'var(--text-muted)' }}>R$</span>
-                  <span style={{ fontSize: '3.5rem', fontWeight: 900, color: 'white', lineHeight: 1, fontFamily: 'system-ui, -apple-system, sans-serif', letterSpacing: '-1px' }}>{plan.price}</span>
-                  <span style={{ color: 'var(--text-muted)', fontWeight: 500 }}>/mês</span>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px', marginBottom: '0.5rem' }}>
+                  <span style={{ textDecoration: 'line-through', color: 'rgba(239, 68, 68, 0.7)', fontSize: '0.9rem', fontWeight: 600 }}>
+                    De R$ {plan.originalPrice}/mês
+                  </span>
+                  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'baseline', gap: '4px' }}>
+                    <span style={{ fontSize: '1.3rem', fontWeight: 700, color: 'var(--success)' }}>Por R$</span>
+                    <span style={{ fontSize: '3.5rem', fontWeight: 900, color: 'white', lineHeight: 1, fontFamily: 'system-ui, -apple-system, sans-serif', letterSpacing: '-1px' }}>{plan.price}</span>
+                    <span style={{ color: 'var(--text-muted)', fontWeight: 500, fontSize: '0.9rem' }}>/mês</span>
+                  </div>
                 </div>
                 <div style={{ marginTop: '0.75rem', fontSize: '0.85rem', color: 'var(--text-muted)', fontFamily: 'monospace', background: 'rgba(255,255,255,0.05)', padding: '4px 8px', borderRadius: '8px', display: 'inline-block' }}>
                   Setup: + R${plan.setup} (única vez)

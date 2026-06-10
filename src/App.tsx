@@ -51,7 +51,7 @@ function LandingPage() {
             </div>
 
             {/* Simulador Appears Next to Hero */}
-            <div className="animate-fade-in-up delay-200" id="simulator">
+            <div className="animate-fade-in delay-200" id="simulator">
               <div style={{ position: 'relative' }}>
                 <Simulator onCheckout={() => navigate('/ativar-sistema', { state: { simulou: true } })} />
               </div>

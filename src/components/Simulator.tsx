@@ -1,25 +1,25 @@
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { Bot, Zap, ArrowRight, CheckCircle2, Smartphone, Users, MessageSquare, Activity, Clock, TrendingUp } from 'lucide-react';
+import { Bot, Zap, ArrowRight, CheckCircle2, Smartphone, Users, MessageSquare, Activity, Clock, TrendingUp, ChevronLeft } from 'lucide-react';
 
 type ActivationStep = 'idle' | 'form' | 'loading' | 'qr' | 'connected' | 'manual-chat';
 
 const chatSimulations = [
   {
     niche: 'Clínica de Estética',
-    name: 'Sofia (Robô)',
+    name: 'Sofia (Atendente)',
     client: 'Vocês tem horário pra hoje a tarde?',
     ai: 'Olá! Temos sim. Tenho disponibilidade às 15:00 ou às 16:30. Qual fica melhor pra você? 😊'
   },
   {
     niche: 'Pizzaria Delivery',
-    name: 'Mariana (Robô)',
+    name: 'Mariana (Atendente)',
     client: 'Queria pedir meia calabresa meia mussarela, entrega no centro?',
     ai: 'Claro! Entregamos sim. Fica R$ 45,90 com a taxa. O pagamento é no cartão ou PIX? 🍕'
   },
   {
     niche: 'Barbearia Premium',
-    name: 'Carlos (Robô)',
+    name: 'Carlos (Atendente)',
     client: 'Quanto tá o corte disfarçado com barba?',
     ai: 'Opa chefe! O corte + barba sai por R$ 60,00. Quer que eu já deixe seu horário marcado pra hoje? ✂️'
   }
@@ -39,6 +39,7 @@ export function Simulator({ onCheckout }: { onCheckout?: () => void }) {
   const [qrCodeBase64, setQrCodeBase64] = useState('');
   const [loadingText, setLoadingText] = useState('');
   const [currentSimIndex, setCurrentSimIndex] = useState(0);
+  const [formStep, setFormStep] = useState(0);
 
   // Manual chat states
   const [manualMessages, setManualMessages] = useState<{role: 'user' | 'bot', text: string}[]>([
@@ -64,10 +65,25 @@ export function Simulator({ onCheckout }: { onCheckout?: () => void }) {
   // Listen to global event from Hero CTA
   useEffect(() => {
     const handleActivate = () => {
-      if (activationStep === 'idle') setActivationStep('form');
+      if (activationStep === 'idle') {
+        setActivationStep('form');
+        setFormStep(0);
+      }
     };
     window.addEventListener('activateSimulator', handleActivate);
     return () => window.removeEventListener('activateSimulator', handleActivate);
+  }, [activationStep]);
+
+  // Lock body scroll when simulator is active on mobile
+  useEffect(() => {
+    if (activationStep !== 'idle' && window.innerWidth <= 768) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
   }, [activationStep]);
 
   const handleSetupSubmit = async (e: React.FormEvent) => {
@@ -79,33 +95,15 @@ export function Simulator({ onCheckout }: { onCheckout?: () => void }) {
     
     try {
       setLoadingText('Treinando atendimento...');
-      
-      await fetch('https://wpp-api-gabriel.fly.dev/instance/create', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'apikey': 'PH9e2DFBUCiEaQ3SWgohGLupjsnkAv1f'
-        },
-        body: JSON.stringify({
-          instanceName: newInstanceName,
-          webhook: "https://n8n-stack-n8n.29xxar.easypanel.host/webhook/api_mensagens",
-          businessName: formData.businessName,
-          niche: formData.niche,
-          agentName: formData.agentName,
-          style: formData.style
-        })
-      });
-
-      setLoadingText('Configurando WhatsApp...');
       await new Promise(resolve => setTimeout(resolve, 1500));
       
-      setLoadingText('Gerando QR Code...');
+      setLoadingText('Configurando chat de simulação...');
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      setActivationStep('qr');
+      setActivationStep('manual-chat');
     } catch (error) {
-      console.error("Erro na criação da instância:", error);
-      alert("Houve um erro ao conectar com o servidor. Tente novamente.");
+      console.error("Erro na configuração:", error);
+      alert("Houve um erro ao configurar o simulador. Tente novamente.");
       setActivationStep('idle');
     }
   };
@@ -233,7 +231,7 @@ export function Simulator({ onCheckout }: { onCheckout?: () => void }) {
       )}
       
       <div 
-        className="glass-card" 
+        className={`glass-card ${activationStep !== 'idle' ? 'simulator-active' : ''}`}
         style={{ 
           padding: 0, 
           overflow: 'hidden', 
@@ -243,7 +241,12 @@ export function Simulator({ onCheckout }: { onCheckout?: () => void }) {
           cursor: activationStep === 'idle' ? 'pointer' : 'default',
           transition: 'all 0.3s ease'
         }}
-        onClick={() => activationStep === 'idle' && setActivationStep('form')}
+        onClick={() => {
+          if (activationStep === 'idle') {
+            setActivationStep('form');
+            setFormStep(0);
+          }
+        }}
       >
         
         {/* IDLE / FORM / LOADING share the chat background look partially */}
@@ -288,36 +291,161 @@ export function Simulator({ onCheckout }: { onCheckout?: () => void }) {
 
               {/* Overlays */}
               {activationStep === 'form' && (
-                <div style={{ position: 'absolute', inset: 0, zIndex: 10, background: 'rgba(15, 23, 42, 0.85)', backdropFilter: 'blur(8px)', display: 'flex', flexDirection: 'column', padding: '2rem 1.5rem', animation: 'fadeInUp 0.3s ease-out' }}>
-                  <h3 style={{ fontSize: '1.4rem', color: 'white', fontWeight: 800, marginBottom: '1.5rem', textAlign: 'center' }}>
-                    Configure seu Atendente
-                  </h3>
-                  <form onSubmit={handleSetupSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', flex: 1 }}>
-                    <div>
-                      <label style={{ display: 'block', marginBottom: '0.4rem', fontSize: '0.85rem', color: 'var(--text-muted)' }}>Nome do negócio</label>
-                      <input type="text" required placeholder="Ex: Barbearia Elite" value={formData.businessName} onChange={e => setFormData({...formData, businessName: e.target.value})} style={{ width: '100%', padding: '0.8rem 1rem', borderRadius: '12px', background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', outline: 'none' }} />
-                    </div>
-                    <div>
-                      <label style={{ display: 'block', marginBottom: '0.4rem', fontSize: '0.85rem', color: 'var(--text-muted)' }}>Nome do Atendente (IA)</label>
-                      <input type="text" required placeholder="Ex: Ana, Carlos..." value={formData.agentName} onChange={e => setFormData({...formData, agentName: e.target.value})} style={{ width: '100%', padding: '0.8rem 1rem', borderRadius: '12px', background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', outline: 'none' }} />
-                    </div>
-                    <div>
-                      <label style={{ display: 'block', marginBottom: '0.4rem', fontSize: '0.85rem', color: 'var(--text-muted)' }}>Nicho</label>
-                      <input type="text" required placeholder="Ex: Estética, Delivery..." value={formData.niche} onChange={e => setFormData({...formData, niche: e.target.value})} style={{ width: '100%', padding: '0.8rem 1rem', borderRadius: '12px', background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', outline: 'none' }} />
-                    </div>
-                    <div>
-                      <label style={{ display: 'block', marginBottom: '0.4rem', fontSize: '0.85rem', color: 'var(--text-muted)' }}>Estilo do atendente</label>
-                      <select value={formData.style} onChange={e => setFormData({...formData, style: e.target.value})} style={{ width: '100%', padding: '0.8rem 1rem', borderRadius: '12px', background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', outline: 'none' }}>
-                        <option value="Informal">Informal (Emojis, descontraído)</option>
-                        <option value="Elegante">Elegante (Formal, polido)</option>
-                        <option value="Direto">Direto (Focado em conversão)</option>
-                      </select>
-                    </div>
-                    
-                    <button type="submit" className="btn btn-primary" style={{ marginTop: 'auto', padding: '1rem', width: '100%', borderRadius: '12px' }}>
-                      Criar meu atendente <ArrowRight size={18} />
+                <div style={{ position: 'absolute', inset: 0, zIndex: 10, background: 'rgba(15, 23, 42, 0.95)', backdropFilter: 'blur(8px)', display: 'flex', flexDirection: 'column', padding: '2rem 1.5rem', animation: 'fadeInUp 0.3s ease-out' }}>
+                  
+                  {/* Header */}
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2rem', width: '100%' }}>
+                    <button 
+                      type="button"
+                      onClick={() => {
+                        if (formStep === 0) {
+                          setActivationStep('idle');
+                        } else {
+                          setFormStep(prev => prev - 1);
+                        }
+                      }} 
+                      style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.9rem', padding: '4px 0' }}
+                    >
+                      <ChevronLeft size={20} /> Voltar
                     </button>
-                  </form>
+                    <h3 style={{ fontSize: '1rem', color: 'white', fontWeight: 800, margin: 0 }}>
+                      Passo {formStep + 1} de 4
+                    </h3>
+                    <div style={{ width: '60px' }}></div>
+                  </div>
+
+                  {/* Step Progress Bar */}
+                  <div style={{ display: 'flex', gap: '6px', width: '100%', marginBottom: '2rem' }}>
+                    {[0, 1, 2, 3].map((step) => (
+                      <div 
+                        key={step} 
+                        style={{ 
+                          flex: 1, 
+                          height: '4px', 
+                          borderRadius: '2px', 
+                          background: step <= formStep ? 'var(--primary)' : 'rgba(255,255,255,0.1)',
+                          transition: 'background 0.3s ease'
+                        }} 
+                      />
+                    ))}
+                  </div>
+
+                  {/* Form Questions */}
+                  <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                    {formStep === 0 && (
+                      <div style={{ animation: 'fadeIn 0.3s ease-out' }}>
+                        <label style={{ display: 'block', fontSize: '1.2rem', fontWeight: 700, color: 'white', marginBottom: '1rem' }}>
+                          Qual o nome do seu negócio?
+                        </label>
+                        <input 
+                          type="text" 
+                          autoFocus
+                          placeholder="Ex: Barbearia Elite, Pizzaria Bella" 
+                          value={formData.businessName} 
+                          onChange={e => setFormData({...formData, businessName: e.target.value})} 
+                          onKeyDown={e => {
+                            if (e.key === 'Enter' && formData.businessName.trim()) {
+                              e.preventDefault();
+                              setFormStep(1);
+                            }
+                          }}
+                          style={{ width: '100%', padding: '0.9rem 1.1rem', fontSize: '1.05rem', borderRadius: '12px', background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(255,255,255,0.15)', color: 'white', outline: 'none' }} 
+                        />
+                        <button 
+                          type="button"
+                          disabled={!formData.businessName.trim()}
+                          onClick={() => setFormStep(1)}
+                          style={{ marginTop: '1.5rem', padding: '0.9rem', width: '100%', borderRadius: '12px', background: 'var(--primary)', color: 'white', border: 'none', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', opacity: formData.businessName.trim() ? 1 : 0.5 }}
+                        >
+                          Avançar <ArrowRight size={18} />
+                        </button>
+                      </div>
+                    )}
+
+                    {formStep === 1 && (
+                      <div style={{ animation: 'fadeIn 0.3s ease-out' }}>
+                        <label style={{ display: 'block', fontSize: '1.2rem', fontWeight: 700, color: 'white', marginBottom: '1rem' }}>
+                          Qual será o nome do seu atendente?
+                        </label>
+                        <input 
+                          type="text" 
+                          autoFocus
+                          placeholder="Ex: Ana, Carlos, Sofia" 
+                          value={formData.agentName} 
+                          onChange={e => setFormData({...formData, agentName: e.target.value})} 
+                          onKeyDown={e => {
+                            if (e.key === 'Enter' && formData.agentName.trim()) {
+                              e.preventDefault();
+                              setFormStep(2);
+                            }
+                          }}
+                          style={{ width: '100%', padding: '0.9rem 1.1rem', fontSize: '1.05rem', borderRadius: '12px', background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(255,255,255,0.15)', color: 'white', outline: 'none' }} 
+                        />
+                        <button 
+                          type="button"
+                          disabled={!formData.agentName.trim()}
+                          onClick={() => setFormStep(2)}
+                          style={{ marginTop: '1.5rem', padding: '0.9rem', width: '100%', borderRadius: '12px', background: 'var(--primary)', color: 'white', border: 'none', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', opacity: formData.agentName.trim() ? 1 : 0.5 }}
+                        >
+                          Avançar <ArrowRight size={18} />
+                        </button>
+                      </div>
+                    )}
+
+                    {formStep === 2 && (
+                      <div style={{ animation: 'fadeIn 0.3s ease-out' }}>
+                        <label style={{ display: 'block', fontSize: '1.2rem', fontWeight: 700, color: 'white', marginBottom: '1rem' }}>
+                          Qual o segmento ou ramo do seu negócio?
+                        </label>
+                        <input 
+                          type="text" 
+                          autoFocus
+                          placeholder="Ex: Barbearia, Delivery, Estética" 
+                          value={formData.niche} 
+                          onChange={e => setFormData({...formData, niche: e.target.value})} 
+                          onKeyDown={e => {
+                            if (e.key === 'Enter' && formData.niche.trim()) {
+                              e.preventDefault();
+                              setFormStep(3);
+                            }
+                          }}
+                          style={{ width: '100%', padding: '0.9rem 1.1rem', fontSize: '1.05rem', borderRadius: '12px', background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(255,255,255,0.15)', color: 'white', outline: 'none' }} 
+                        />
+                        <button 
+                          type="button"
+                          disabled={!formData.niche.trim()}
+                          onClick={() => setFormStep(3)}
+                          style={{ marginTop: '1.5rem', padding: '0.9rem', width: '100%', borderRadius: '12px', background: 'var(--primary)', color: 'white', border: 'none', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', opacity: formData.niche.trim() ? 1 : 0.5 }}
+                        >
+                          Avançar <ArrowRight size={18} />
+                        </button>
+                      </div>
+                    )}
+
+                    {formStep === 3 && (
+                      <div style={{ animation: 'fadeIn 0.3s ease-out' }}>
+                        <label style={{ display: 'block', fontSize: '1.2rem', fontWeight: 700, color: 'white', marginBottom: '1rem' }}>
+                          Qual estilo de conversação o atendente deve ter?
+                        </label>
+                        <select 
+                          value={formData.style} 
+                          onChange={e => setFormData({...formData, style: e.target.value})} 
+                          style={{ width: '100%', padding: '0.9rem 1.1rem', fontSize: '1.05rem', borderRadius: '12px', background: 'rgba(0,0,0,0.8)', border: '1px solid rgba(255,255,255,0.15)', color: 'white', outline: 'none', cursor: 'pointer' }}
+                        >
+                          <option value="Informal">Informal (Emojis, descontraído)</option>
+                          <option value="Elegante">Elegante (Formal, polido)</option>
+                          <option value="Direto">Direto (Focado em conversão)</option>
+                        </select>
+                        <button 
+                          type="button"
+                          onClick={handleSetupSubmit}
+                          style={{ marginTop: '1.5rem', padding: '0.9rem', width: '100%', borderRadius: '12px', background: 'linear-gradient(135deg, var(--primary), var(--secondary))', color: 'white', border: 'none', fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
+                        >
+                          Criar meu atendente <Zap size={18} />
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </div>
               )}
 
@@ -387,7 +515,14 @@ export function Simulator({ onCheckout }: { onCheckout?: () => void }) {
         {/* MANUAL CHAT STEP */}
         {activationStep === 'manual-chat' && (
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', background: '#0f172a', animation: 'fadeIn 0.5s ease-out', height: '100%' }}>
-            <div style={{ padding: '1rem 1.5rem', background: 'rgba(255,255,255,0.02)', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <div style={{ padding: '1rem 1.5rem', background: 'rgba(255,255,255,0.02)', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <button 
+                onClick={() => setActivationStep('idle')} 
+                style={{ background: 'transparent', border: 'none', color: 'white', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '4px 0', marginRight: '4px' }}
+                title="Voltar"
+              >
+                <ChevronLeft size={24} />
+              </button>
               <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'linear-gradient(135deg, var(--primary), var(--secondary))', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <Bot size={20} color="white" />
               </div>
@@ -477,7 +612,7 @@ export function Simulator({ onCheckout }: { onCheckout?: () => void }) {
                   <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--primary)', marginTop: '6px' }}></div>
                   <div>
                     <div style={{ color: 'white', fontSize: '0.95rem', fontWeight: 500 }}>Novo contato recebido</div>
-                    <div style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginTop: '2px' }}>IA iniciou o atendimento de qualificação.</div>
+                    <div style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginTop: '2px' }}>Sistema iniciou o atendimento de qualificação.</div>
                     <div style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.75rem', marginTop: '4px' }}>Agora mesmo</div>
                   </div>
                 </div>
