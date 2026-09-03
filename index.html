@@ -1,16 +1,904 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Atendente que Vende por Você 24h</title>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-N9BB8D8QRV"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-N9BB8D8QRV');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sofia IA - Atendente Automático com Inteligência Artificial para WhatsApp. Responda em 3 segundos, agende clientes e feche vendas 24h por dia no piloto automático.">
+    <meta name="keywords" content="atendente automatico, whatsapp ia, chatbot whatsapp, inteligencia artificial vendas, agendamento automatico, automacao whatsapp, sofia ia">
+    <meta name="author" content="Sofia IA">
+    <meta name="robots" content="index, follow">
+    <title>Sofia IA | Atendente Automático no WhatsApp 24h por Dia</title>
+
+    <!-- Open Graph / Redes Sociais -->
+    <meta property="og:title" content="Sofia IA | Atendente Automático no WhatsApp 24h por Dia">
+    <meta property="og:description" content="Pare de perder clientes por demorar a responder. Responda em 3 segundos, tire dúvidas e feche vendas 24h no piloto automático.">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="pt_BR">
+
+    <!-- Fontes Google: Plus Jakarta Sans (Títulos Brutalistas), Geist Mono (Labels Técnicas), Inter (Corpo) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Ícones Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- CSS Neon Velocity -->
+    <link rel="stylesheet" href="./style.css">
+
+    <!-- Preconnect para Vimeo Player e CDN (Performance & Carregamento Rápido) -->
+    <link rel="preconnect" href="https://player.vimeo.com">
+    <link rel="preconnect" href="https://i.vimeocdn.com">
+    <link rel="preconnect" href="https://f.vimeocdn.com">
+    <link rel="dns-prefetch" href="https://player.vimeo.com">
+    <link rel="dns-prefetch" href="https://i.vimeocdn.com">
+</head>
+<body>
+
+    <!-- HALOS DE REFRAÇÃO RADIAL (NEON VELOCITY AMBIENCE) -->
+    <div class="glow-top"></div>
+    <div class="glow-mid"></div>
+    <div class="glow-bottom"></div>
+
+    <!-- 0. BARRA DE STATUS / PROMOÇÃO TOPO -->
+    <div class="promo-bar">
+        <span class="promo-bar__tag">PLANO MENSAL</span>
+        <span class="promo-bar__text">SOFIA IA POR APENAS R$ 198/MÊS · ACESSO IMEDIATO + BÔNUS EXCLUSIVOS</span>
+    </div>
+
+    <!-- HEADER / NAVEGAÇÃO -->
+    <header class="header">
+        <div class="header__inner">
+            <a href="#" class="header__logo">
+                SOFIA<span class="accent">.IA</span>
+            </a>
+            <nav class="header__nav">
+                <a href="#problema" class="header__link">O Problema</a>
+                <a href="#comparativo" class="header__link">Comparativo</a>
+                <a href="#como-funciona" class="header__link">Como Funciona</a>
+                <a href="#conteudo" class="header__link">O Que Inclui</a>
+                <a href="#resultados" class="header__link">Resultados</a>
+                <a href="#oferta" class="laser-btn header__cta">
+                    ATIVAR MINHA IA AGORA →
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ==========================================
+         PASSO 1: HERO SECTION COM VSL & MOCKUP
+    =========================================== -->
+    <section class="hero" id="inicio">
+        <!-- Card de Vidro 3D de Fundo -->
+        <div class="hero__glass"></div>
+
+        <div class="hero__inner">
+            <!-- Eyebrow / Tag Técnica -->
+            <div class="hero__eyebrow fade-in">
+                <span class="hero__eyebrow-tag">SOFIA IA 2.0</span>
+                <span class="hero__eyebrow-text">+150.000 MENSAGENS PROCESSADAS · 100% NO WHATSAPP</span>
+            </div>
+
+            <!-- Caixa de Título Brutalista (Borda Branca 12px, 0px border-radius) -->
+            <div class="hero__title-box fade-in">
+                <h1 class="hero__title">
+                    SEU ATENDENTE COM IA<br>QUE VENDE NO WHATSAPP<br><span>24H POR DIA</span>
+                </h1>
+            </div>
+
+            <!-- VSL PLAYER CONTAINER COM SMART AUTOPLAY E OVERLAY 'CLIQUE PARA OUVIR' -->
+            <div class="vsl fade-in">
+                <div class="vsl__wrapper" id="vsl-container">
+                    <div class="vsl__responsive-container">
+                        <iframe 
+                            id="vsl-iframe"
+                            src="https://player.vimeo.com/video/1223566217?h=81bf5551b5&amp;autoplay=1&amp;muted=1&amp;loop=1&amp;controls=1&amp;title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;dnt=1&amp;playsinline=1" 
+                            frameborder="0" 
+                            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
+                            allowfullscreen
+                            referrerpolicy="strict-origin-when-cross-origin"
+                            title="Sofia IA - Apresentação Oficial (VSL)"
+                            loading="lazy">
+                        </iframe>
+
+                        <!-- Overlay 'Seu vídeo já começou - Clique para ouvir' na frente do vídeo -->
+                        <div class="vsl__overlay" id="vsl-overlay">
+                            <div class="vsl__cta">
+                                <span class="vsl__cta-top">Seu vídeo já começou</span>
+                                <!-- Ícone de alto-falante mutado -->
+                                <svg class="vsl__cta-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M8 15h5l7-7v24l-7-7H8a1 1 0 0 1-1-1v-8a1 1 0 0 1 1-1z" fill="#000"/>
+                                    <path d="M26 14.5c1.8 1.8 2.8 4.2 2.8 6.7s-1 4.9-2.8 6.7" stroke="#000" stroke-width="2" stroke-linecap="round"/>
+                                    <path d="M30.5 10c3 3 4.7 7.1 4.7 11.2s-1.7 8.2-4.7 11.2" stroke="#000" stroke-width="2" stroke-linecap="round"/>
+                                    <line x1="6" y1="34" x2="34" y2="6" stroke="#000" stroke-width="2.5" stroke-linecap="round"/>
+                                </svg>
+                                <span class="vsl__cta-bottom">Clique para ouvir</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Metadados do Hero & Botão de Ação -->
+            <div class="hero__meta fade-in">
+                <div class="hero__meta-left">
+                    <p class="hero__subtitle">
+                        Transforme o WhatsApp do seu negócio em uma <strong>máquina de vendas e agendamentos automáticos</strong>. A Sofia responde clientes em <strong class="accent">3 segundos</strong>, tira dúvidas, quebra objeções, envia chave PIX e sincroniza sua agenda enquanto você dorme ou atende clientes.
+                    </p>
+                    <div class="hero__cta-row">
+                        <a href="#oferta" class="laser-btn laser-btn--large">
+                            QUERO MEU ATENDENTE AUTOMÁTICO AGORA →
+                        </a>
+                    </div>
+                    <div class="hero__badges">
+                        <span class="hero__badge"><span class="hero__badge-icon">✓</span> INSTALAÇÃO EM 5 MIN</span>
+                        <span class="hero__badge"><span class="hero__badge-icon">✓</span> SEM SABER PROGRAMAR</span>
+                        <span class="hero__badge"><span class="hero__badge-icon">✓</span> GARANTIA TOTAL 15 DIAS</span>
+                        <span class="hero__badge"><span class="hero__badge-icon">✓</span> SUPORTE VIP VIA WHATSAPP</span>
+                    </div>
+                </div>
+
+                <div class="hero__meta-right">
+                    <span class="hero__timer-label">CONDIÇÃO ESPECIAL EXPIRA EM</span>
+                    <div class="hero__timer countdown-timer" id="hero-countdown">11:59:59</div>
+                    <span class="hero__timer-sub mono">RESTAM APENAS 7 VAGAS NESSE LOTE</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         PASSO 2: BATER FORTE NO PROBLEMA / DOR
+    =========================================== -->
+    <section class="pain" id="problema">
+        <div class="container">
+            <div class="pain__header fade-in">
+                <div class="section-label">01 / A DOR SILENCIOSA</div>
+                <h2 class="section-title">
+                    Você sabia que 78% dos clientes compram<br>
+                    <span>do primeiro que responder no WhatsApp?</span>
+                </h2>
+                <p class="section-sub">
+                    Enquanto você está atendendo um cliente, dirigindo, descansando ou dormindo, leads qualificados mandam mensagem querendo comprar ou agendar. Mas se você demora 15 minutos para responder, o cliente já fechou com o seu concorrente.
+                </p>
+            </div>
+
+            <div class="pain__grid">
+                <div class="pain__item fade-in">
+                    <div class="pain__check"></div>
+                    <p class="pain__text">
+                        <strong>Perde clientes toda noite e fins de semana</strong> porque seu WhatsApp fica sem resposta e o cliente não espera até o dia seguinte.
+                    </p>
+                </div>
+
+                <div class="pain__item fade-in">
+                    <div class="pain__check"></div>
+                    <p class="pain__text">
+                        <strong>Não consegue parar o serviço para responder:</strong> se você para de cortar cabelo, atender paciente ou cozinhar pra digitar, sua produtividade despenca.
+                    </p>
+                </div>
+
+                <div class="pain__item fade-in">
+                    <div class="pain__check"></div>
+                    <p class="pain__text">
+                        <strong>O lead manda "Quanto custa?"</strong> e quando você responde 30 minutos depois, ele visualiza e te deixa no vácuo eterno.
+                    </p>
+                </div>
+
+                <div class="pain__item fade-in">
+                    <div class="pain__check"></div>
+                    <p class="pain__text">
+                        <strong>Cansado de gastar R$ 2.500+ por atendente humano</strong> que falta, comete erros de preço, não segue script e custa encargos pesados todo mês.
+                    </p>
+                </div>
+
+                <div class="pain__item fade-in">
+                    <div class="pain__check"></div>
+                    <p class="pain__text">
+                        <strong>Confusão e duplicidade de agendamentos:</strong> esquece de anotar na agenda de papel e passa vergonha com clientes marcados no mesmo horário.
+                    </p>
+                </div>
+
+                <div class="pain__item fade-in">
+                    <div class="pain__check"></div>
+                    <p class="pain__text">
+                        <strong>Clientes antigos somem e você não vende de novo:</strong> não tem tempo de mandar mensagem para reengajar quem já comprou de você no passado.
+                    </p>
+                </div>
+
+                <div class="pain__item fade-in">
+                    <div class="pain__check"></div>
+                    <p class="pain__text">
+                        <strong>Sensação de escravidão do celular:</strong> trabalha 14 horas por dia, vive grudado no WhatsApp e mesmo assim sente que está deixando rios de dinheiro na mesa.
+                    </p>
+                </div>
+            </div>
+
+            <div class="pain__footer fade-in">
+                <p class="pain__close">
+                    Marcou pelo menos <span>1</span> desses itens? A <strong>Sofia IA</strong> elimina esse gargalo hoje mesmo no seu negócio.
+                </p>
+                <div style="margin-top: 24px;">
+                    <a href="#oferta" class="laser-btn">QUERO PARAR DE PERDER CLIENTES →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         PASSO 3: AUTORIDADE ATRAVÉS DE NÚMEROS
+    =========================================== -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats__grid">
+                <div class="stats__item fade-in">
+                    <div class="stats__number">+150.000</div>
+                    <div class="stats__label">MENSAGENS PROCESSADAS</div>
+                </div>
+                <div class="stats__item fade-in">
+                    <div class="stats__number">3.2s</div>
+                    <div class="stats__label">TEMPO MÉDIO DE RESPOSTA</div>
+                </div>
+                <div class="stats__item fade-in">
+                    <div class="stats__number">24/7</div>
+                    <div class="stats__label">OPERAÇÃO SEM PAUSAS</div>
+                </div>
+                <div class="stats__item fade-in">
+                    <div class="stats__number">+450</div>
+                    <div class="stats__label">EMPRESAS ESCALANDO</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         PASSO 4: ANCORAGEM DE PREÇO (PRODUTO BARATO)
+    =========================================== -->
+    <section class="comparison" id="comparativo">
+        <div class="container">
+            <div class="comparison__header fade-in">
+                <div class="section-label">02 / ANCORAGEM & COMPARATIVO</div>
+                <h2 class="section-title">
+                    Quanto custa NÃO ter um atendimento<br>
+                    <span>rápido e profissional no WhatsApp?</span>
+                </h2>
+                <p class="section-sub">
+                    Compare os custos reais das opções tradicionais contra o poder de um sistema automatizado com inteligência artificial:
+                </p>
+            </div>
+
+            <div class="comparison__grid">
+                <!-- Opção 1: Atendente CLT -->
+                <div class="lum-card comparison__card fade-in">
+                    <span class="lum-card__index mono">01 / EQUIPE HUMANA</span>
+                    <div>
+                        <div class="comparison__icon">👤</div>
+                        <h3 class="comparison__title">ATENDENTE CLT</h3>
+                        <ul class="comparison__list">
+                            <li><strong>R$ 2.500 a R$ 4.000/mês</strong> (+ encargos, FGTS, 13º, férias)</li>
+                            <li>Trabalha apenas 8h por dia de seg a sex</li>
+                            <li>Faltas, atrasos, atestados e atritos</li>
+                            <li>Atende 1 pessoa de cada vez lentamente</li>
+                        </ul>
+                    </div>
+                    <div class="comparison__verdict">❌ CUSTO ALTO</div>
+                </div>
+
+                <!-- Opção 2: Perder Vendas no Vácuo -->
+                <div class="lum-card comparison__card fade-in">
+                    <span class="lum-card__index mono">02 / CONTINUAR NO MANUAL</span>
+                    <div>
+                        <div class="comparison__icon">💸</div>
+                        <h3 class="comparison__title">PERDER VENDAS NO VÁCUO</h3>
+                        <ul class="comparison__list">
+                            <li><strong>R$ 3.000 a R$ 10.000/mês</strong> em prejuízo invisível</li>
+                            <li>Clientes ignorados às 21h compram do concorrente</li>
+                            <li>Você preso 24h respondendo "qual o preço?"</li>
+                            <li>Sobrecarga mental e estresse constante</li>
+                        </ul>
+                    </div>
+                    <div class="comparison__verdict">❌ PREJUÍZO DIÁRIO</div>
+                </div>
+
+                <!-- Opção 3: Sofia IA (Destaque) -->
+                <div class="lum-card comparison__card comparison__card--highlight fade-in">
+                    <span class="comparison__badge">O MELHOR CUSTO-BENEFÍCIO</span>
+                    <div>
+                        <div class="comparison__icon">⚡</div>
+                        <h3 class="comparison__title">SOFIA IA AUTOMÁTICA</h3>
+                        <ul class="comparison__list">
+                            <li><strong>R$ 198,00 / mês</strong> (menos de R$ 6,60 por dia)</li>
+                            <li>Responde em 3 segundos, 24 horas por dia, 7 dias por semana</li>
+                            <li>Tira dúvidas, envia fotos/tabelas, agenda e cobra</li>
+                            <li>Atende 100 clientes ao mesmo tempo sem errar</li>
+                        </ul>
+                    </div>
+                    <div class="comparison__verdict">✅ LUCRO MÁXIMO</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         PASSO 5: EXPLIQUE SEU PRODUTO EM 3 PASSOS
+    =========================================== -->
+    <section class="how-it-works" id="como-funciona">
+        <div class="container">
+            <div class="fade-in" style="text-align: center; margin-bottom: 56px;">
+                <div class="section-label">03 / PROCESSO SIMPLES</div>
+                <h2 class="section-title">
+                    Como funciona na prática?<br>
+                    <span>3 passos para ligar o piloto automático</span>
+                </h2>
+                <p class="section-sub" style="margin: 0 auto;">
+                    Sem código, sem telas complicadas. Você configura uma vez e colhe os resultados todos os dias.
+                </p>
+            </div>
+
+            <div class="how__grid">
+                <!-- Passo 1 -->
+                <div class="lum-card how__card fade-in">
+                    <div class="how__number">01</div>
+                    <h3 class="how__title">CONECTE SEU WHATSAPP</h3>
+                    <p class="how__desc">
+                        Basta escanear o QR Code pelo seu aplicativo do WhatsApp em 30 segundos. O mesmo processo do WhatsApp Web, 100% seguro.
+                    </p>
+                </div>
+
+                <!-- Passo 2 -->
+                <div class="lum-card how__card fade-in">
+                    <div class="how__number">02</div>
+                    <h3 class="how__title">PERSONALIZE SUAS REGRAS</h3>
+                    <p class="how__desc">
+                        Defina seus preços, serviços, horários de atendimento e regras do seu negócio de forma visual e intuitiva.
+                    </p>
+                </div>
+
+                <!-- Passo 3 -->
+                <div class="lum-card how__card fade-in">
+                    <div class="how__number">03</div>
+                    <h3 class="how__title">LIGUE O PILOTO AUTOMÁTICO</h3>
+                    <p class="how__desc">
+                        A Sofia assume as conversas imediatamente: responde áudios e textos, fecha vendas, agenda e notifica você de cada novo pedido.
+                    </p>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 48px;" class="fade-in">
+                <a href="#oferta" class="laser-btn laser-btn--large">
+                    QUERO CONFIGURAR MEU ATENDENTE AGORA →
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         PASSO 6: CONTEÚDO DO PRODUTO (O QUE VEM DENTRO)
+    =========================================== -->
+    <section class="included" id="conteudo">
+        <div class="container">
+            <div class="fade-in" style="margin-bottom: 56px;">
+                <div class="section-label">04 / ECOSSISTEMA COMPLETO</div>
+                <h2 class="section-title">
+                    Tudo o que você recebe dentro<br>
+                    <span>do Super Pacote Sofia IA</span>
+                </h2>
+                <p class="section-sub">
+                    Uma infraestrutura pronta para empresas e profissionais que querem automatizar seu atendimento sem dor de cabeça:
+                </p>
+            </div>
+
+            <div class="included__grid">
+                <!-- Item 1 -->
+                <div class="included__card fade-in">
+                    <div class="included__icon">🤖</div>
+                    <div class="included__content">
+                        <span class="included__label">SISTEMA PRINCIPAL</span>
+                        <h3 class="included__name">Motor Sofia IA de Vendas Ultra-Humanizado</h3>
+                        <p class="included__desc">
+                            Inteligência artificial avançada configurada para responder como um ser humano de verdade, com tom acolhedor, quebra de objeções e persuasão de vendas.
+                        </p>
+                    </div>
+                    <span class="included__value">R$ 497,00</span>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="included__card fade-in">
+                    <div class="included__icon">📅</div>
+                    <div class="included__content">
+                        <span class="included__label">SINCRONIZAÇÃO EM TEMPO REAL</span>
+                        <h3 class="included__name">Módulo de Agendamento Automático (Google Agenda & CRM)</h3>
+                        <p class="included__desc">
+                            A Sofia verifica horários livres, oferece opções ao cliente, confirma o agendamento e bloqueia na sua agenda sem risco de duplicidade.
+                        </p>
+                    </div>
+                    <span class="included__value">R$ 297,00</span>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="included__card fade-in">
+                    <div class="included__icon">🎙️</div>
+                    <div class="included__content">
+                        <span class="included__label">REVOLUÇÃO NO ATENDIMENTO</span>
+                        <h3 class="included__name">Reconhecimento e Interpretação de Áudios</h3>
+                        <p class="included__desc">
+                            Seus clientes adoram mandar áudio? A Sofia ouve, transcreve, entende o contexto completo e responde com precisão milimétrica.
+                        </p>
+                    </div>
+                    <span class="included__value">R$ 197,00</span>
+                </div>
+
+                <!-- Item 4 -->
+                <div class="included__card fade-in">
+                    <div class="included__icon">💳</div>
+                    <div class="included__content">
+                        <span class="included__label">CHECKOUT INTEGRADO</span>
+                        <h3 class="included__name">Gerador de Chave PIX & Links de Pagamento</h3>
+                        <p class="included__desc">
+                            Facilidade para o cliente pagar na hora: a IA gera o código PIX Copia e Cola ou link do seu gateway de pagamento durante a conversa.
+                        </p>
+                    </div>
+                    <span class="included__value">R$ 147,00</span>
+                </div>
+
+                <!-- Item 5 -->
+                <div class="included__card fade-in">
+                    <div class="included__icon">🔄</div>
+                    <div class="included__content">
+                        <span class="included__label">CONTROLE TOTAL</span>
+                        <h3 class="included__name">Transbordo Humano com 1 Clique (Pausa Inteligente)</h3>
+                        <p class="included__desc">
+                            Precisa falar pessoalmente com um cliente especial? Você pode pausar e retomar a IA a qualquer momento direto pelo chat.
+                        </p>
+                    </div>
+                    <span class="included__value">R$ 97,00</span>
+                </div>
+
+                <!-- Item 6: Bônus 1 -->
+                <div class="included__card included__card--bonus fade-in">
+                    <div class="included__icon">🎁</div>
+                    <div class="included__content">
+                        <span class="included__label">BÔNUS ESPECIAL HOJE #1</span>
+                        <h3 class="included__name">15 Templates Prontos para Nichos de Alta Demanda</h3>
+                        <p class="included__desc">
+                            Modelos pré-configurados para Barbearias, Salões de Beleza, Clínicas Médicas/Odonto, Restaurantes/Pizzarias, Advocacia, Consultoria e E-commerce.
+                        </p>
+                    </div>
+                    <span class="included__value">R$ 297,00</span>
+                </div>
+
+                <!-- Item 7: Bônus 2 -->
+                <div class="included__card included__card--bonus fade-in">
+                    <div class="included__icon">🚀</div>
+                    <div class="included__content">
+                        <span class="included__label">BÔNUS ESPECIAL HOJE #2</span>
+                        <h3 class="included__name">Fluxo de Reativação Automática de Clientes Sumidos</h3>
+                        <p class="included__desc">
+                            Script automatizado para mandar ofertas personalizadas para clientes que não compram ou não agendam há mais de 30 dias.
+                        </p>
+                    </div>
+                    <span class="included__value">R$ 197,00</span>
+                </div>
+            </div>
+
+            <!-- Empilhamento de Preço / Ancoragem -->
+            <div class="included__stack fade-in">
+                <div class="included__stack-old">VALOR TOTAL DE MERCADO: R$ 1.729,00</div>
+                <div class="included__stack-new">Hoje por apenas <span>R$ 198,00 / mês</span></div>
+                <div class="included__stack-sub">Menos de R$ 6,60 por dia · Sem taxa de adesão · Cancele quando quiser</div>
+            </div>
+
+            <div style="text-align: center;" class="fade-in">
+                <a href="#oferta" class="laser-btn laser-btn--large">
+                    GARANTIR O PACOTE COMPLETO POR R$ 198/MÊS →
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         PASSO 7: CARD DE OFERTA / PRICING
+    =========================================== -->
+    <section class="offer-section" id="oferta">
+        <div class="container">
+            <div class="offer-card lum-card fade-in">
+                <!-- Tag de Destaque -->
+                <div class="offer-card__badge-top">
+                    <span>⚡ CONDIÇÃO ÚNICA DE LANÇAMENTO</span>
+                </div>
+
+                <div class="offer-card__header">
+                    <h2 class="offer-card__title">SOFIA IA · PLANO MENSAL COMPLETO</h2>
+                    <p class="offer-card__sub">
+                        Automatize seu WhatsApp hoje e tenha um atendente incansável trabalhando para você 24 horas por dia.
+                    </p>
+                </div>
+
+                <!-- Lista de Entregáveis -->
+                <div class="offer-card__features">
+                    <div class="offer-card__feat-item">
+                        <span class="check-icon">✓</span>
+                        <span>Motor Completo Sofia IA 2.0 (Responde em 3 segundos)</span>
+                    </div>
+                    <div class="offer-card__feat-item">
+                        <span class="check-icon">✓</span>
+                        <span>Agendamento Automático Integrado com Google Agenda</span>
+                    </div>
+                    <div class="offer-card__feat-item">
+                        <span class="check-icon">✓</span>
+                        <span>Compreensão e Resposta Inteligente de Mensagens de Áudio</span>
+                    </div>
+                    <div class="offer-card__feat-item">
+                        <span class="check-icon">✓</span>
+                        <span>Geração de Chave PIX e Links de Pagamento no Chat</span>
+                    </div>
+                    <div class="offer-card__feat-item">
+                        <span class="check-icon">✓</span>
+                        <span>Transbordo e Pausa Manual em 1 Clique</span>
+                    </div>
+                    <div class="offer-card__feat-item highlight">
+                        <span class="check-icon">✓</span>
+                        <span><strong>BÔNUS #1:</strong> 15 Templates Prontos para Todos os Nichos</span>
+                    </div>
+                    <div class="offer-card__feat-item highlight">
+                        <span class="check-icon">✓</span>
+                        <span><strong>BÔNUS #2:</strong> Script de Reativação de Clientes Inativos</span>
+                    </div>
+                    <div class="offer-card__feat-item">
+                        <span class="check-icon">✓</span>
+                        <span>Garantia Blindada Incondicional de 15 Dias</span>
+                    </div>
+                    <div class="offer-card__feat-item">
+                        <span class="check-icon">✓</span>
+                        <span>Suporte Prioritário Direto no WhatsApp</span>
+                    </div>
+                </div>
+
+                <!-- Bloco de Preço -->
+                <div class="offer-card__price-box">
+                    <div class="offer-card__old-price">VALOR DE MERCADO: R$ 497,00/MÊS</div>
+                    <div class="offer-card__main-price">
+                        <span class="currency">R$</span>
+                        <span class="val">198</span>
+                        <span class="cents">,00</span>
+                    </div>
+                    <div class="offer-card__installment">por mês · menos de R$ 6,60 por dia · Cancele a qualquer momento</div>
+                    <div class="offer-card__tag-discount">CONDIÇÃO ESPECIAL DE LANÇAMENTO</div>
+                </div>
+
+                <!-- CTA Principal Laser -->
+                <div class="offer-card__action">
+                    <a href="https://payfast.greenn.com.br/6ubpgns" class="laser-btn laser-btn--large laser-btn--checkout">
+                        ATIVAR MEU ATENDENTE COM IA POR R$ 198/MÊS →
+                    </a>
+                </div>
+
+                <!-- Selos de Confiança -->
+                <div class="offer-card__trust">
+                    <div class="trust-item">
+                        <span class="trust-icon">🔒</span>
+                        <span>Pagamento 100% Criptografado</span>
+                    </div>
+                    <div class="trust-item">
+                        <span class="trust-icon">⚡</span>
+                        <span>Liberação Imediata em 2 Min</span>
+                    </div>
+                    <div class="trust-item">
+                        <span class="trust-icon">🛡️</span>
+                        <span>Garantia de 15 Dias ou Reembolso</span>
+                    </div>
+                </div>
+
+                <!-- Box da Garantia de 15 Dias -->
+                <div class="guarantee-box">
+                    <div class="guarantee-box__icon">🛡️</div>
+                    <div class="guarantee-box__content">
+                        <h4>RISCO ZERO: GARANTIA INCONDICIONAL DE 15 DIAS</h4>
+                        <p>
+                            Teste a solução na sua barbearia por 15 dias completos. Se você não se impressionar com a agilidade, a qualidade das respostas e a praticidade, basta enviar uma mensagem e nós devolvemos 100% do seu dinheiro. Sem perguntas e sem letras miúdas.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         PASSO 8: RESULTADOS, ANTES E DEPOIS & CHATS
+    =========================================== -->
+    <section class="proof" id="resultados">
+        <div class="container">
+            <div class="fade-in" style="margin-bottom: 56px;">
+                <div class="section-label">06 / COMPROVAÇÃO PRÁTICA</div>
+                <h2 class="section-title">
+                    Veja a diferença brutal de um atendimento<br>
+                    <span>manual versus o Atendimento Sofia IA</span>
+                </h2>
+                <p class="section-sub">
+                    A mesma situação. O mesmo cliente. Resultados completamente opostos:
+                </p>
+            </div>
+
+            <!-- Grid Comparativo Antes vs Depois -->
+            <div class="proof__comparison-grid">
+                <!-- Coluna ANTES -->
+                <div class="lum-card proof__col proof__col--before fade-in">
+                    <div class="proof__col-tag red">❌ ANTES (ATENDIMENTO MANUAL)</div>
+                    <div class="proof__chat-box">
+                        <div class="chat-bubble client">
+                            <span class="sender">Cliente (22:45)</span>
+                            <p>Opa boa noite! Tem vaga pra amanhã às 18h? Quanto custa o corte e barba?</p>
+                        </div>
+                        <div class="chat-delay-warning">
+                            <span>⏳ Passaram-se 10 horas sem resposta...</span>
+                        </div>
+                        <div class="chat-bubble business">
+                            <span class="sender">Você (08:50 do dia seguinte)</span>
+                            <p>Bom dia! Desculpa a demora, ontem já tinha fechado. Tenho horário sim, o combo sai a R$ 65. Quer marcar?</p>
+                        </div>
+                        <div class="chat-bubble client">
+                            <span class="sender">Cliente (08:52)</span>
+                            <p>Valeu, mas como demorou eu já marquei em outra barbearia ontem à noite mesmo. 👍</p>
+                        </div>
+                    </div>
+                    <div class="proof__col-summary red-text">
+                        <strong>Resultado:</strong> Cliente perdido, faturamento zero e dinheiro indo direto para o bolso do seu concorrente.
+                    </div>
+                </div>
+
+                <!-- Coluna DEPOIS COM SOFIA IA -->
+                <div class="lum-card proof__col proof__col--after fade-in">
+                    <div class="proof__col-tag green">✅ DEPOIS (COM SOFIA IA ATIVA)</div>
+                    <div class="proof__chat-box">
+                        <div class="chat-bubble client">
+                            <span class="sender">Cliente (22:45:10)</span>
+                            <p>Opa boa noite! Tem vaga pra amanhã às 18h? Quanto custa o corte e barba?</p>
+                        </div>
+                        <div class="chat-bubble ia">
+                            <span class="sender">Sofia IA (22:45:13 · 3 segundos depois)</span>
+                            <p>Boa noite! Tudo ótimo? 💈 O combo Corte Degradê + Barba com toalha quente sai a R$ 65,00 (com cortesia de cerveja gelada!). Consegui vaga certinho amanhã às 18h00 com o barbeiro Rafa. Bora garantir seu horário?</p>
+                        </div>
+                        <div class="chat-bubble client">
+                            <span class="sender">Cliente (22:45:30)</span>
+                            <p>Top demais, pode marcar 18h com o Rafa!</p>
+                        </div>
+                        <div class="chat-bubble ia">
+                            <span class="sender">Sofia IA (22:45:33)</span>
+                            <p>Fechado! Já deixei reservado na nossa agenda para amanhã às 18h00. Te mandei a confirmação por aqui! ✂️🔥</p>
+                        </div>
+                    </div>
+                    <div class="proof__col-summary green-text">
+                        <strong>Resultado:</strong> Cliente atendido em 3 segundos, venda fechada às 22h45 e agendamento salvo na agenda automaticamente.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Depoimentos Rápidos -->
+            <div class="testimonials-grid fade-in">
+                <div class="lum-card testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p class="test-quote">"Na primeira semana a IA fechou 14 agendamentos de madrugada que antes eu simplesmente perdia. Se pagou no primeiro dia."</p>
+                    <div class="test-author">
+                        <strong>Lucas M.</strong> — Dono de Barbearia (BH)
+                    </div>
+                </div>
+                <div class="lum-card testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p class="test-quote">"Não preciso mais parar as consultas para responder WhatsApp. A Sofia passa os valores e agenda tudo na minha Google Agenda perfeitamente."</p>
+                    <div class="test-author">
+                        <strong>Dra. Camila R.</strong> — Clínica Estética (SP)
+                    </div>
+                </div>
+                <div class="lum-card testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p class="test-quote">"Fácil demais de configurar. Em 10 minutos já estava funcionando no meu WhatsApp. O reconhecimento de áudios é surreal de bom."</p>
+                    <div class="test-author">
+                        <strong>Rodrigo F.</strong> — Estúdio & Serviços (RJ)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         PASSO 9: FAQ (PERGUNTAS FREQUENTES ACCORDION)
+    =========================================== -->
+    <section class="faq" id="faq">
+        <div class="container">
+            <div class="fade-in" style="text-align: center;">
+                <div class="section-label">07 / TIRE SUAS DÚVIDAS</div>
+                <h2 class="section-title">Perguntas Frequentes</h2>
+                <p class="section-sub" style="margin: 0 auto;">
+                    Tudo o que você precisa saber sobre a Sofia IA antes de garantir seu acesso:
+                </p>
+            </div>
+
+            <div class="faq__list">
+                <!-- FAQ 1 -->
+                <div class="faq__item fade-in">
+                    <button class="faq__question" aria-expanded="false">
+                        <span>Recebo acesso ao agente na hora?</span>
+                        <span class="faq__icon">+</span>
+                    </button>
+                    <div class="faq__answer">
+                        <div class="faq__answer-inner">
+                            Sim. Assim que sua compra for aprovada, você recebe acesso à área de membros com as instruções para começar. Depois, você envia as informações da sua barbearia para que possamos configurar o agente de acordo com o seu negócio.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 2 -->
+                <div class="faq__item fade-in">
+                    <button class="faq__question" aria-expanded="false">
+                        <span>Preciso entender de tecnologia para usar?</span>
+                        <span class="faq__icon">+</span>
+                    </button>
+                    <div class="faq__answer">
+                        <div class="faq__answer-inner">
+                            Não. O agente foi pensado para facilitar o atendimento, mesmo que você não tenha conhecimento técnico. Você recebe as orientações necessárias para colocar a solução para funcionar na sua barbearia.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 3 -->
+                <div class="faq__item fade-in">
+                    <button class="faq__question" aria-expanded="false">
+                        <span>O agente funciona no WhatsApp da minha barbearia?</span>
+                        <span class="faq__icon">+</span>
+                    </button>
+                    <div class="faq__answer">
+                        <div class="faq__answer-inner">
+                            Sim. A proposta é justamente ajudar sua barbearia a automatizar parte do atendimento pelo WhatsApp, respondendo dúvidas frequentes e ajudando seus clientes durante o processo de agendamento.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 4 -->
+                <div class="faq__item fade-in">
+                    <button class="faq__question" aria-expanded="false">
+                        <span>Ele vai substituir meu atendimento?</span>
+                        <span class="faq__icon">+</span>
+                    </button>
+                    <div class="faq__answer">
+                        <div class="faq__answer-inner">
+                            Não. O objetivo é reduzir o trabalho repetitivo e agilizar o atendimento, não tirar você da conversa com seus clientes. Quando for necessário, o atendimento pode continuar com uma pessoa.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 5 -->
+                <div class="faq__item fade-in">
+                    <button class="faq__question" aria-expanded="false">
+                        <span>E se eu não gostar ou não funcionar para minha barbearia?</span>
+                        <span class="faq__icon">+</span>
+                    </button>
+                    <div class="faq__answer">
+                        <div class="faq__answer-inner">
+                            Você tem <strong>15 dias de garantia</strong> para conhecer a solução e decidir se ela faz sentido para o seu negócio. Se dentro desse período você entender que não é para você, poderá solicitar o reembolso conforme as condições da oferta.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 6 -->
+                <div class="faq__item fade-in">
+                    <button class="faq__question" aria-expanded="false">
+                        <span>Por que custa tão barato? Qual é o truque?</span>
+                        <span class="faq__icon">+</span>
+                    </button>
+                    <div class="faq__answer">
+                        <div class="faq__answer-inner">
+                            Não tem truque. A ideia é tornar esse tipo de automação acessível para barbearias pequenas e médias, usando uma solução padronizada em vez de cobrar milhares de reais por um projeto totalmente personalizado. Por isso conseguimos oferecer a solução por um valor muito mais acessível.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         PASSO 10: SEGUNDA ANCORAGEM & CTA FINAL
+    =========================================== -->
+    <section class="final-cta">
+        <div class="final-cta__glow"></div>
+        <div class="container">
+            <!-- Timer no topo do CTA final -->
+            <div class="final-cta__timer-wrap fade-in">
+                <span class="final-cta__timer-dot"></span>
+                <span class="final-cta__timer-text">ESSA OFERTA PROMOCIONAL EXPIRA EM <strong class="countdown-timer" id="final-countdown">11:59:59</strong></span>
+            </div>
+
+            <h2 class="final-cta__title fade-in">
+                DUAS OPÇÕES.<br>
+                <span>VOCÊ ESCOLHE.</span>
+            </h2>
+
+            <div class="final-cta__subtitle fade-in">
+                <p><strong>Opção 1:</strong> Fechar essa página, continuar atendendo seus clientes manualmente pelo WhatsApp e perder tempo respondendo as mesmas perguntas todos os dias.</p>
+                <p><strong>Opção 2:</strong> Investir <strong>R$198</strong> em uma solução que pode agilizar seu atendimento, responder seus clientes e ajudar sua barbearia a não deixar oportunidades passarem enquanto você está ocupado trabalhando.</p>
+            </div>
+
+            <!-- Resumo do pacote / O QUE VOCÊ RECEBE -->
+            <div class="final-cta__receive-title fade-in">O QUE VOCÊ RECEBE:</div>
+            <div class="final-cta__value fade-in">
+                <span class="final-cta__value-item"><span class="final-cta__value-check">✓</span> Agente de WhatsApp para sua barbearia</span>
+                <span class="final-cta__value-item"><span class="final-cta__value-check">✓</span> Atendimento automatizado para dúvidas e solicitações frequentes</span>
+                <span class="final-cta__value-item"><span class="final-cta__value-check">✓</span> Configuração personalizada para o seu negócio</span>
+                <span class="final-cta__value-item"><span class="final-cta__value-check">✓</span> Acesso à área de membros</span>
+                <span class="final-cta__value-item"><span class="final-cta__value-check">✓</span> Orientações para começar</span>
+                <span class="final-cta__value-item"><span class="final-cta__value-check">✓</span> 15 dias de garantia</span>
+            </div>
+
+            <!-- Bloco de Preço Final -->
+            <div class="final-cta__price fade-in">
+                <div class="final-cta__price-old">VALOR DA SOLUÇÃO: R$ 497,00</div>
+                <div class="final-cta__price-new">Hoje por apenas <span>R$ 198,00</span></div>
+                <div class="final-cta__price-installment">ou 12x de R$ 19,88 no cartão</div>
+            </div>
+
+            <!-- Botão de Compra Final -->
+            <div class="fade-in" style="margin-bottom: 24px;">
+                <a href="https://payfast.greenn.com.br/6ubpgns" class="laser-btn laser-btn--large laser-btn--checkout">
+                    QUERO MEU AGENTE DE WHATSAPP POR R$198 →
+                </a>
+            </div>
+
+            <!-- Selos de Confiança -->
+            <div class="final-cta__trust fade-in">
+                <span>🔒 Pagamento 100% Seguro</span>
+                <span>·</span>
+                <span>🛡️ 15 Dias de Garantia</span>
+                <span>·</span>
+                <span>⚡ Acesso à Área de Membros</span>
+            </div>
+            <div class="final-cta__badges fade-in">
+                <span class="final-cta__badge">🔒 SSL SEGURO</span>
+                <span class="final-cta__badge">✓ GARANTIA 15 DIAS</span>
+                <span class="final-cta__badge">⚡ ACESSO ÀS INSTRUÇÕES</span>
+            </div>
+
+            <!-- OPÇÃO SECUNDÁRIA DE SUPORTE NO WHATSAPP (NÃO COMPETE COM O CTA DE COMPRA) -->
+            <div class="whatsapp-support fade-in">
+                <div class="whatsapp-support__card">
+                    <h4 class="whatsapp-support__title">Ainda ficou com alguma dúvida?</h4>
+                    <p class="whatsapp-support__sub">
+                        Fale com um atendente pelo WhatsApp antes de tomar sua decisão.
+                    </p>
+                    <a href="https://wa.me/5535984295953" target="_blank" rel="noopener noreferrer" class="whatsapp-support__btn">
+                        💬 Falar com um atendente no WhatsApp
+                    </a>
+                    <div class="whatsapp-support__footer">
+                        <span class="online-dot"></span>
+                        <span>Atendimento direto e sem compromisso</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- RODAPÉ CORPORATIVO -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 SOFIA IA · SISTEMA DE ATENDIMENTO AUTOMATIZADO. TODOS OS DIREITOS RESERVADOS.</p>
+            <p class="footer__disclaimer">
+                Este produto não garante a obtenção de resultados financeiros sem a devida aplicação do método e regras do seu negócio. Não possuímos vínculo direto com a Meta ou WhatsApp Inc.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Scripts da Página -->
+    <script src="https://player.vimeo.com/api/player.js"></script>
+    <script type="module" src="./script.js"></script>
+</body>
 </html>
