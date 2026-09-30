@@ -97,33 +97,11 @@
     </header>
 
     <!-- ==========================================================================
-         HERO SECTION: Headline → Subheadline → VSL → CTA R$198 → Garantia/Segurança
+         HERO SECTION: VSL FIRST → Headline → Subheadline → CTA R$198 → Garantia
          ========================================================================== -->
     <section class="hero" id="inicio">
         <div class="section-container">
-            <div class="hero__content">
-                <!-- Live Notification Pill -->
-                <div class="hero__pill-wrap fade-in">
-                    <div class="live-pill">
-                        <span class="live-pill__dot"></span>
-                        <span class="live-pill__badge">LIVE</span>
-                        <span class="live-pill__divider"></span>
-                        <span class="live-pill__text">Sofia IA Ativa · Atendendo e Agendando em Tempo Real</span>
-                    </div>
-                </div>
-
-                <!-- 1. Headline (Playfair Display Italic clamp(2.5rem, 8vw, 6rem)) -->
-                <h1 class="hero__headline fade-in">
-                    Seu Atendente com IA que <span class="highlight">Vende no WhatsApp</span> 24 Horas por Dia
-                </h1>
-
-                <!-- 2. Subheadline (Inter 300-700) -->
-                <p class="hero__description fade-in">
-                    Pare de perder clientes por demorar a responder. A Sofia IA atende em 3 segundos, esclarece dúvidas de serviços e valores, agenda horários e fecha vendas no piloto automático direto na sua barbearia.
-                </p>
-            </div>
-
-            <!-- 3. VSL: NEURAL NETWORK INTERACTIVE STAGE (Central 9:16 Vertical Node + Satellite Cards + SVG) -->
+            <!-- 1. VSL: O FOCO PRINCIPAL (PRIMEIRA COISA QUE APARECE NA PÁGINA) -->
             <div class="hero__interactive-stage fade-in" id="video-demo">
                 <!-- Dynamic SVG Neural Connection Lines (Adapted for 9:16 Vertical Node) -->
                 <svg class="neural-lines-svg" viewBox="0 0 1160 720" fill="none" preserveAspectRatio="none">
@@ -206,7 +184,30 @@
                 </div>
             </div>
 
-            <!-- 4. CTA R$198 + 5. Garantia / Segurança (Logo abaixo da VSL) -->
+            <!-- 2. Headline & Subheadline (Logo abaixo da VSL) -->
+            <div class="hero__content hero__content--below fade-in">
+                <!-- Live Notification Pill -->
+                <div class="hero__pill-wrap" style="margin-bottom: 20px;">
+                    <div class="live-pill">
+                        <span class="live-pill__dot"></span>
+                        <span class="live-pill__badge">LIVE</span>
+                        <span class="live-pill__divider"></span>
+                        <span class="live-pill__text">Sofia IA Ativa · Atendendo e Agendando em Tempo Real</span>
+                    </div>
+                </div>
+
+                <!-- Headline (Playfair Display Italic) -->
+                <h1 class="hero__headline">
+                    Seu Atendente com IA que <span class="highlight">Vende no WhatsApp</span> 24 Horas por Dia
+                </h1>
+
+                <!-- Subheadline (Inter) -->
+                <p class="hero__description">
+                    Pare de perder clientes por demorar a responder. A Sofia IA atende em 3 segundos, esclarece dúvidas de serviços e valores, agenda horários e fecha vendas no piloto automático direto na sua barbearia.
+                </p>
+            </div>
+
+            <!-- 3. CTA R$198 + Garantia / Segurança -->
             <div class="hero__action-wrap fade-in">
                 <div class="hero__cta-group">
                     <a href="https://payfast.greenn.com.br/6ubpgns" class="pill-btn-solid hero__cta-main">
@@ -396,87 +397,45 @@
     </section>
 
     <!-- ==========================================================================
-         PRICING SECTION (Three-Tiered Layout, Center 'Pro' Highlighted, 48px Price)
+         PRICING SECTION (Plano Único R$ 198/mês)
          ========================================================================== -->
     <section class="pricing-section" id="planos">
         <div class="section-container">
             <div class="section-header fade-in">
                 <span class="section-eyebrow">Investimento Acessível</span>
-                <h2 class="section-title">Escolha o Plano Ideal para seu Negócio</h2>
+                <h2 class="section-title">Comece Hoje com a Sofia IA</h2>
                 <p class="section-subtitle">
-                    Sem taxas ocultas, sem fidelidade abusiva. Cancele quando quiser com 1 clique.
+                    Tenha seu atendente com inteligência artificial vendendo no seu WhatsApp por menos de R$ 7 por dia.
                 </p>
             </div>
 
-            <!-- Pill-shaped switch with white active state -->
-            <div class="pricing-toggle-wrap fade-in">
-                <div class="pricing-toggle" id="pricing-toggle">
-                    <button class="pricing-toggle__btn active" id="btn-monthly">Mensal</button>
-                    <button class="pricing-toggle__btn" id="btn-annual">Anual</button>
-                </div>
-                <span class="pricing-toggle__discount">Até 2 meses grátis no plano anual</span>
-            </div>
-
-            <!-- Three-tiered Layout Grid -->
-            <div class="pricing-grid">
-                <!-- Tier 1: Starter -->
-                <div class="pricing-card fade-in">
-                    <div class="pricing-card__header">
-                        <h3 class="pricing-card__name">Starter</h3>
-                        <p class="pricing-card__desc">Para quem quer testar automação básica.</p>
-                    </div>
-
-                    <div class="pricing-card__price-box">
-                        <div class="pricing-card__price">
-                            <span class="pricing-card__currency">R$</span>
-                            <span class="price-val" data-monthly="97" data-annual="890">97</span>
-                            <span class="pricing-card__period">/mês</span>
-                        </div>
-                        <p class="pricing-card__installments">ou 12x de R$ 9,74</p>
-                    </div>
-
-                    <ul class="pricing-card__features">
-                        <li class="pricing-card__feature-item"><i class="fa-solid fa-check"></i> 1 WhatsApp</li>
-                        <li class="pricing-card__feature-item"><i class="fa-solid fa-check"></i> Até 500 mensagens/mês</li>
-                        <li class="pricing-card__feature-item"><i class="fa-solid fa-check"></i> Responde perguntas simples previamente configuradas</li>
-                        <li class="pricing-card__feature-item" style="color: var(--gray-500);"><i class="fa-solid fa-xmark" style="color: var(--gray-500);"></i> Sem agendamento automático</li>
-                        <li class="pricing-card__feature-item" style="color: var(--gray-500);"><i class="fa-solid fa-xmark" style="color: var(--gray-500);"></i> Sem integração com Google Agenda</li>
-                        <li class="pricing-card__feature-item" style="color: var(--gray-500);"><i class="fa-solid fa-xmark" style="color: var(--gray-500);"></i> Sem personalização avançada</li>
-                        <li class="pricing-card__feature-item"><i class="fa-solid fa-check"></i> Configuração inicial padrão</li>
-                        <li class="pricing-card__feature-item"><i class="fa-solid fa-check"></i> Suporte por e-mail</li>
-                        <li class="pricing-card__feature-item"><i class="fa-solid fa-check"></i> 15 Dias de Garantia</li>
-                    </ul>
-
-                    <a href="https://payfast.greenn.com.br/6ubpgns" class="pill-btn-bordered pricing-card__cta">
-                        Começar no Starter
-                    </a>
-                </div>
-
-                <!-- Tier 2: Barbearia Pro (Center Highlighted with 1px border #a78b71/40 and Most Popular badge) -->
-                <div class="pricing-card pricing-card--featured fade-in">
+            <!-- Single Centered Offer Card (R$ 198/mês) -->
+            <div class="pricing-grid pricing-grid--single fade-in">
+                <div class="pricing-card pricing-card--featured">
                     <!-- Top-centered Most Popular badge -->
                     <div class="pricing-badge">
-                        OFERTA OFICIAL · MAIS ESCOLHIDO
+                        OFERTA OFICIAL · VALOR MENSAL
                     </div>
 
-                    <div class="pricing-card__header">
-                        <h3 class="pricing-card__name gold-text">Barbearia Pro</h3>
-                        <p class="pricing-card__desc">Aí é a Sofia que você realmente quer vender: no piloto automático completo.</p>
+                    <div class="pricing-card__header" style="text-align: center;">
+                        <h3 class="pricing-card__name gold-text" style="font-size: 30px;">Barbearia Pro</h3>
+                        <p class="pricing-card__desc">Aí é a Sofia que você realmente quer: no piloto automático completo.</p>
                     </div>
 
-                    <div class="pricing-card__price-box">
+                    <div class="pricing-card__price-box" style="text-align: center; display: flex; flex-direction: column; align-items: center;">
                         <div class="pricing-card__price">
                             <span class="pricing-card__currency">R$</span>
-                            <span class="price-val" data-monthly="198" data-annual="1890">198</span>
+                            <span class="price-val">198</span>
                             <span class="pricing-card__period">/mês</span>
                         </div>
                         <p class="pricing-card__installments">ou 12x de R$ 19,88 no cartão</p>
                     </div>
 
-                    <ul class="pricing-card__features">
-                        <li class="pricing-card__feature-item"><i class="fa-solid fa-check"></i> <strong>Agendamento automático</strong></li>
-                        <li class="pricing-card__feature-item"><i class="fa-solid fa-check"></i> <strong>Integração com Google Agenda</strong></li>
-                        <li class="pricing-card__feature-item"><i class="fa-solid fa-check"></i> <strong>Entendimento e respostas para áudio</strong></li>
+                    <ul class="pricing-card__features" style="max-width: 520px; margin: 0 auto 36px auto;">
+                        <li class="pricing-card__feature-item"><i class="fa-solid fa-check"></i> <strong>Agente de WhatsApp para sua barbearia</strong></li>
+                        <li class="pricing-card__feature-item"><i class="fa-solid fa-check"></i> <strong>Agendamento automático inteligente</strong></li>
+                        <li class="pricing-card__feature-item"><i class="fa-solid fa-check"></i> <strong>Integração direta com Google Agenda</strong></li>
+                        <li class="pricing-card__feature-item"><i class="fa-solid fa-check"></i> <strong>Entendimento e respostas para mensagens de áudio</strong></li>
                         <li class="pricing-card__feature-item"><i class="fa-solid fa-check"></i> <strong>Respostas personalizadas com a voz da barbearia</strong></li>
                         <li class="pricing-card__feature-item"><i class="fa-solid fa-check"></i> <strong>Conhece serviços, preços e horários</strong></li>
                         <li class="pricing-card__feature-item"><i class="fa-solid fa-check"></i> <strong>Configuração de acordo com a sua barbearia</strong></li>
@@ -487,37 +446,8 @@
                     </ul>
 
                     <!-- Direct Greenn Checkout Button -->
-                    <a href="https://payfast.greenn.com.br/6ubpgns" class="pill-btn-solid pricing-card__cta" id="cta-checkout-pro">
+                    <a href="https://payfast.greenn.com.br/6ubpgns" class="pill-btn-solid pricing-card__cta" id="cta-checkout-pro" style="max-width: 440px; margin: 0 auto; text-align: center;">
                         QUERO MEU AGENTE POR R$198 →
-                    </a>
-                </div>
-
-                <!-- Tier 3: Enterprise -->
-                <div class="pricing-card fade-in">
-                    <div class="pricing-card__header">
-                        <h3 class="pricing-card__name">Multi-Unidades</h3>
-                        <p class="pricing-card__desc">Para redes de barbearias, franquias e equipes de grande porte.</p>
-                    </div>
-
-                    <div class="pricing-card__price-box">
-                        <div class="pricing-card__price">
-                            <span class="pricing-card__currency">R$</span>
-                            <span class="price-val" data-monthly="397" data-annual="3890">397</span>
-                            <span class="pricing-card__period">/mês</span>
-                        </div>
-                        <p class="pricing-card__installments">ou 12x de R$ 39,85</p>
-                    </div>
-
-                    <ul class="pricing-card__features">
-                        <li class="pricing-card__feature-item"><i class="fa-solid fa-check"></i> Até 5 Números de WhatsApp Conectados</li>
-                        <li class="pricing-card__feature-item"><i class="fa-solid fa-check"></i> Dashboard Multi-Atendentes e Barbeiros</li>
-                        <li class="pricing-card__feature-item"><i class="fa-solid fa-check"></i> Integrações personalizadas com CRM</li>
-                        <li class="pricing-card__feature-item"><i class="fa-solid fa-check"></i> Gerente de Contas Dedicado no WhatsApp</li>
-                        <li class="pricing-card__feature-item"><i class="fa-solid fa-check"></i> 15 Dias de Garantia</li>
-                    </ul>
-
-                    <a href="https://payfast.greenn.com.br/6ubpgns" class="pill-btn-bordered pricing-card__cta">
-                        Contratar Multi-Unidades
                     </a>
                 </div>
             </div>

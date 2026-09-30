@@ -1048,6 +1048,17 @@ body {
     align-items: center;
 }
 
+.pricing-grid--single {
+    display: flex;
+    justify-content: center;
+    max-width: 660px;
+    margin: 0 auto;
+}
+
+.pricing-grid--single .pricing-card {
+    width: 100%;
+}
+
 .pricing-card {
     background: var(--bg-card);
     backdrop-filter: var(--glass-blur);
