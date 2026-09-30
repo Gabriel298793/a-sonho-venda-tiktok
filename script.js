@@ -1,19 +1,25 @@
 /**
  * ==========================================================================
- * SOFIA IA — JAVASCRIPT ENGINE (NEON VELOCITY)
+ * SOFIA IA — JAVASCRIPT ENGINE (LUXURY DARK NEURAL SYSTEM)
  * ==========================================================================
  */
 
 document.addEventListener('DOMContentLoaded', () => {
 
-
-
     /* ==========================================================================
-       HELPER: GA4 EVENT TRACKING
+       HELPER: EVENT TRACKING (GA4 + META PIXEL)
        ========================================================================== */
-    function trackGAEvent(eventName, params = {}) {
+    function trackEvent(eventName, params = {}, metaEvent = null, metaParams = {}) {
+        // Google Analytics 4
         if (typeof window.gtag === 'function') {
             window.gtag('event', eventName, params);
+        }
+
+        // Meta Pixel
+        if (typeof window.fbq === 'function') {
+            if (metaEvent) {
+                window.fbq('track', metaEvent, Object.keys(metaParams).length ? metaParams : params);
+            }
         }
     }
 
@@ -38,10 +44,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     [25, 50, 75, 90].forEach((m) => {
                         if (percent >= m && !milestones[m]) {
                             milestones[m] = true;
-                            trackGAEvent('video_progress', {
+                            trackEvent('video_progress', {
                                 video_percent: m,
                                 video_provider: 'vimeo',
-                                video_title: 'VSL Sofia IA Barbearia',
+                                video_title: 'Sofia IA - Apresentacao VSL',
                                 event_category: 'VSL'
                             });
                         }
@@ -49,9 +55,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 player.on('ended', () => {
-                    trackGAEvent('video_complete', {
+                    trackEvent('video_complete', {
                         video_provider: 'vimeo',
-                        video_title: 'VSL Sofia IA Barbearia',
+                        video_title: 'Sofia IA - Apresentacao VSL',
                         event_category: 'VSL'
                     });
                     player.setMuted(true).catch(() => {});
@@ -66,13 +72,13 @@ document.addEventListener('DOMContentLoaded', () => {
         getPlayer();
 
         overlay.addEventListener('click', () => {
-            trackGAEvent('vsl_unmute_click', {
-                video_title: 'VSL Sofia IA Barbearia',
+            trackEvent('vsl_unmute_click', {
+                video_title: 'Sofia IA - Apresentacao VSL',
                 event_category: 'VSL'
             });
-            trackGAEvent('video_start', {
+            trackEvent('video_start', {
                 video_provider: 'vimeo',
-                video_title: 'VSL Sofia IA Barbearia',
+                video_title: 'Sofia IA - Apresentacao VSL',
                 event_category: 'VSL'
             });
 
@@ -103,59 +109,42 @@ document.addEventListener('DOMContentLoaded', () => {
     })();
 
     /* ==========================================================================
-       2. COUNTDOWN TIMER (PERSISTENTE NO LOCALSTORAGE, TABULAR-NUMS)
+       2. PRICING TOGGLE (MENSAL / ANUAL)
        ========================================================================== */
-    (function initCountdown() {
-        const STORAGE_KEY = 'sofia_countdown_timer_v1';
-        const timerElements = document.querySelectorAll('.countdown-timer');
+    (function initPricingToggle() {
+        const btnMonthly = document.getElementById('btn-monthly');
+        const btnAnnual = document.getElementById('btn-annual');
+        const priceElements = document.querySelectorAll('.price-val');
+        if (!btnMonthly || !btnAnnual) return;
 
-        function getEndTime() {
-            const stored = localStorage.getItem(STORAGE_KEY);
-            if (stored) {
-                const parsed = parseInt(stored, 10);
-                if (parsed > Date.now()) return parsed;
-            }
-            // 11 horas, 42 minutos e 18 segundos de urgência perene
-            const newEnd = Date.now() + ((11 * 3600) + (42 * 60) + 18) * 1000;
-            localStorage.setItem(STORAGE_KEY, newEnd.toString());
-            return newEnd;
-        }
+        btnMonthly.addEventListener('click', () => {
+            btnMonthly.classList.add('active');
+            btnAnnual.classList.remove('active');
 
-        let endTime = getEndTime();
-
-        function updateTimer() {
-            const remaining = endTime - Date.now();
-            if (remaining <= 0) {
-                timerElements.forEach(el => el.textContent = '00:00:00');
-                localStorage.removeItem(STORAGE_KEY);
-                return;
-            }
-
-            const hours = Math.floor(remaining / 3600000);
-            const mins = Math.floor((remaining % 3600000) / 60000);
-            const secs = Math.floor((remaining % 60000) / 1000);
-
-            const formatted = 
-                String(hours).padStart(2, '0') + ':' +
-                String(mins).padStart(2, '0') + ':' +
-                String(secs).padStart(2, '0');
-
-            timerElements.forEach(el => {
-                el.textContent = formatted;
+            priceElements.forEach(el => {
+                const monthlyVal = el.getAttribute('data-monthly');
+                if (monthlyVal) el.textContent = monthlyVal;
             });
-        }
+        });
 
-        updateTimer();
-        setInterval(updateTimer, 1000);
+        btnAnnual.addEventListener('click', () => {
+            btnAnnual.classList.add('active');
+            btnMonthly.classList.remove('active');
+
+            priceElements.forEach(el => {
+                const annualVal = el.getAttribute('data-annual');
+                if (annualVal) el.textContent = annualVal;
+            });
+        });
     })();
 
     /* ==========================================================================
-       3. FAQ ACCORDION (INTERAÇÃO FLUIDA)
+       3. FAQ ACCORDION
        ========================================================================== */
     (function initFAQ() {
-        const faqItems = document.querySelectorAll('.faq__item');
+        const faqItems = document.querySelectorAll('.faq-item');
         faqItems.forEach(item => {
-            const btn = item.querySelector('.faq__question');
+            const btn = item.querySelector('.faq-question');
             if (!btn) return;
 
             btn.addEventListener('click', () => {
@@ -231,7 +220,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (val) capturedParams[key] = val;
         });
 
-        // Persistência em sessionStorage
         const STORAGE_KEY = 'sofia_utms';
         let storedParams = {};
         try {
@@ -275,51 +263,42 @@ document.addEventListener('DOMContentLoaded', () => {
     })();
 
     /* ==========================================================================
-       7. GA4 TRACKING DOS PRINCIPAIS BOTÕES DA PÁGINA
+       7. GA4 & META PIXEL BUTTON TRACKING
        ========================================================================== */
-    (function initGA4ButtonTracking() {
-        // Botões de Checkout (Dispara begin_checkout)
+    (function initConversionTracking() {
+        // Botões de Checkout (Dispara begin_checkout e InitiateCheckout)
         document.querySelectorAll('a[href*="greenn.com.br"]').forEach((btn) => {
             btn.addEventListener('click', () => {
-                const isFinal = btn.closest('.final-cta') !== null;
-                const buttonLocation = isFinal ? 'final_cta' : 'offer_card';
-                trackGAEvent('begin_checkout', {
+                trackEvent('begin_checkout', {
                     currency: 'BRL',
                     value: 198.00,
                     items: [{
-                        item_id: 'sofia_ia_mensal',
+                        item_id: 'sofia_ia_pro',
                         item_name: 'Sofia IA - Atendente WhatsApp Barbearia',
                         price: 198.00,
                         quantity: 1
                     }],
-                    button_location: buttonLocation,
+                    button_location: 'pricing_card',
                     event_category: 'ecommerce'
+                }, 'InitiateCheckout', {
+                    currency: 'BRL',
+                    value: 198.00
                 });
             });
         });
 
-        // Botões de Âncora (Hero CTA e Header CTA)
-        document.querySelectorAll('.hero__cta-row a, .header__cta a').forEach((btn) => {
+        // Botão de Dúvidas / WhatsApp Secundário (Dispara Lead / Contact)
+        document.querySelectorAll('.whatsapp-support__btn, a[href*="wa.me"]').forEach((btn) => {
             btn.addEventListener('click', () => {
-                trackGAEvent('navigation_cta_click', {
-                    event_category: 'engagement',
-                    button_text: btn.innerText.trim(),
-                    target_section: btn.getAttribute('href') || '#oferta'
-                });
-            });
-        });
-
-        // Botão de Dúvidas / WhatsApp Secundário
-        document.querySelectorAll('.whatsapp-support__btn').forEach((btn) => {
-            btn.addEventListener('click', () => {
-                trackGAEvent('whatsapp_contact_click', {
+                trackEvent('whatsapp_contact_click', {
                     event_category: 'lead',
                     contact_channel: 'whatsapp_support',
                     phone: '5535984295953'
+                }, 'Contact', {
+                    contact_method: 'whatsapp'
                 });
             });
         });
     })();
 
 });
-
