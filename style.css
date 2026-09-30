@@ -474,15 +474,15 @@ body {
     padding: 30px 10px;
 }
 
-/* Central Node (16:9 Glass Card with Box-Shadow Glow) */
+/* Central Node (9:16 Vertical Smartphone Glass Node with Gold Box-Shadow Glow) */
 .central-node {
     position: relative;
     width: 100%;
-    max-width: 860px;
+    max-width: 380px; /* Proporção Vertical 9:16 */
     margin: 0 auto;
     background: rgba(10, 10, 10, 0.95);
     border: 1px solid var(--glass-border);
-    border-radius: 32px;
+    border-radius: 36px;
     overflow: hidden;
     box-shadow: 0 0 100px var(--gold-glow), 0 30px 60px rgba(0, 0, 0, 0.9);
     transition: var(--transition-smooth);
@@ -534,13 +534,14 @@ body {
     background: rgba(255, 255, 255, 0.15);
 }
 
-/* 16:9 Aspect Ratio Video Frame */
+/* 9:16 Vertical Aspect Ratio Video Frame (16 / 9 = 177.78%) */
 .central-node__video-wrap {
     position: relative;
     width: 100%;
-    padding-top: 56.25%; /* 16:9 ratio */
+    padding-top: 177.78%; /* Proporção 9:16 vertical */
     height: 0;
     background: #000000;
+    overflow: hidden;
 }
 
 .central-node__video-wrap iframe {
@@ -577,9 +578,11 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
-    padding: 18px 32px;
-    background: rgba(10, 10, 10, 0.85);
+    gap: 10px;
+    padding: 16px 22px;
+    max-width: 86%;
+    text-align: center;
+    background: rgba(10, 10, 10, 0.88);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border: 1px solid var(--gold-base);
@@ -686,13 +689,13 @@ body {
 }
 
 .satellite-card--left {
-    top: 15%;
-    left: -20px;
+    top: 25%;
+    left: clamp(10px, 4vw, 50px);
 }
 
 .satellite-card--right {
-    bottom: 10%;
-    right: -20px;
+    bottom: 22%;
+    right: clamp(10px, 4vw, 50px);
 }
 
 .satellite-card__img-wrap {
