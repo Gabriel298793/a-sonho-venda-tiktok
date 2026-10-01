@@ -24,7 +24,110 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /* ==========================================================================
-       1. VSL PLAYER CONTROLLER (SMART AUTOPLAY MUTED + CLIQUE PARA OUVIR + GA4)
+       1. PITCH DELAY MANAGER (REVELA BOTÃO & PREÇO AOS 3:30 MIN DE VSL)
+       ========================================================================== */
+    const PitchDelay = (function initPitchDelay() {
+        const DEFAULT_DELAY_SECONDS = 210; // 3 min e 30 seg
+        const STORAGE_KEY = 'sofia_pitch_revealed_v1';
+        let isPitchRevealed = false;
+        let pitchTimer = null;
+
+        // Suporte para testes via URL (ex: ?tempo=5 para 5s, ou ?pitch=true para imediato)
+        const urlParams = new URLSearchParams(window.location.search);
+        let delaySeconds = DEFAULT_DELAY_SECONDS;
+        if (urlParams.has('tempo')) {
+            const parsed = parseInt(urlParams.get('tempo'), 10);
+            if (!isNaN(parsed) && parsed >= 0) delaySeconds = parsed;
+        }
+
+        function revealPitch(triggerSource = 'vsl_timer') {
+            if (isPitchRevealed) return;
+            isPitchRevealed = true;
+
+            try {
+                localStorage.setItem(STORAGE_KEY, 'true');
+            } catch (e) {}
+
+            const delayedElements = document.querySelectorAll('.pitch-delayed');
+            delayedElements.forEach(el => {
+                el.classList.add('is-revealed');
+            });
+
+            trackEvent('pitch_revealed', {
+                trigger_source: triggerSource,
+                delay_seconds: delaySeconds,
+                event_category: 'VSL'
+            });
+
+            console.log(`[Sofia IA] Oferta revelada com sucesso via ${triggerSource} (${delaySeconds}s)!`);
+        }
+
+        // Expor para testes no console
+        window.revealPitch = () => revealPitch('manual_console');
+
+        // Se o visitante já assistiu ao pitch anteriormente ou tem ?pitch=true, revela de imediato
+        const hasSeenPitch = (() => {
+            try {
+                return localStorage.getItem(STORAGE_KEY) === 'true';
+            } catch (e) {
+                return false;
+            }
+        })();
+
+        if (hasSeenPitch || urlParams.get('pitch') === 'true') {
+            revealPitch('instant_cache');
+        }
+
+        // Fallback de leitura geral caso passe 4 minutos no site lendo o conteúdo
+        setTimeout(() => {
+            if (!isPitchRevealed) {
+                revealPitch('page_reading_fallback');
+            }
+        }, 240 * 1000);
+
+        // Ação do Botão Surgido no Hero que leva suavemente para o card de planos
+        const heroPitchBtn = document.getElementById('btn-hero-scroll-pitch');
+        if (heroPitchBtn) {
+            heroPitchBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const planosEl = document.getElementById('planos');
+                if (planosEl) {
+                    if (!isPitchRevealed) revealPitch('cta_click');
+                    planosEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    const card = planosEl.querySelector('.pricing-card');
+                    if (card) {
+                        card.classList.remove('card-highlight-pulse');
+                        void card.offsetWidth; // força reflow
+                        card.classList.add('card-highlight-pulse');
+                    }
+                }
+                trackEvent('pitch_cta_click', {
+                    target: 'planos',
+                    event_category: 'conversion'
+                });
+            });
+        }
+
+        return {
+            onVideoPlay: () => {
+                if (!pitchTimer && !isPitchRevealed) {
+                    pitchTimer = setTimeout(() => {
+                        revealPitch('play_duration_fallback');
+                    }, delaySeconds * 1000);
+                }
+            },
+            onTimeUpdate: (currentSeconds) => {
+                if (currentSeconds >= delaySeconds && !isPitchRevealed) {
+                    revealPitch('vimeo_timeupdate');
+                }
+            },
+            reveal: revealPitch,
+            isRevealed: () => isPitchRevealed
+        };
+    })();
+
+    /* ==========================================================================
+       2. VSL PLAYER CONTROLLER (SMART AUTOPLAY MUTED + CLIQUE PARA OUVIR + GA4)
        ========================================================================== */
     (function initVSL() {
         const iframe = document.getElementById('vsl-iframe');
@@ -38,8 +141,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!player && window.Vimeo && window.Vimeo.Player) {
                 player = new Vimeo.Player(iframe);
 
-                // Tracking de marcos de progresso do vídeo
+                // Tracking de marcos de progresso do vídeo + gatilho do pitch aos 3:30 min
                 player.on('timeupdate', (data) => {
+                    PitchDelay.onTimeUpdate(data.seconds);
+
                     const percent = Math.floor(data.percent * 100);
                     [25, 50, 75, 90].forEach((m) => {
                         if (percent >= m && !milestones[m]) {
@@ -52,6 +157,10 @@ document.addEventListener('DOMContentLoaded', () => {
                             });
                         }
                     });
+                });
+
+                player.on('play', () => {
+                    PitchDelay.onVideoPlay();
                 });
 
                 player.on('ended', () => {
@@ -72,6 +181,8 @@ document.addEventListener('DOMContentLoaded', () => {
         getPlayer();
 
         overlay.addEventListener('click', () => {
+            PitchDelay.onVideoPlay();
+
             trackEvent('vsl_unmute_click', {
                 video_title: 'Sofia IA - Apresentacao VSL',
                 event_category: 'VSL'
@@ -105,36 +216,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             overlay.classList.add('hidden');
-        });
-    })();
-
-    /* ==========================================================================
-       2. PRICING TOGGLE (MENSAL / ANUAL)
-       ========================================================================== */
-    (function initPricingToggle() {
-        const btnMonthly = document.getElementById('btn-monthly');
-        const btnAnnual = document.getElementById('btn-annual');
-        const priceElements = document.querySelectorAll('.price-val');
-        if (!btnMonthly || !btnAnnual) return;
-
-        btnMonthly.addEventListener('click', () => {
-            btnMonthly.classList.add('active');
-            btnAnnual.classList.remove('active');
-
-            priceElements.forEach(el => {
-                const monthlyVal = el.getAttribute('data-monthly');
-                if (monthlyVal) el.textContent = monthlyVal;
-            });
-        });
-
-        btnAnnual.addEventListener('click', () => {
-            btnAnnual.classList.add('active');
-            btnMonthly.classList.remove('active');
-
-            priceElements.forEach(el => {
-                const annualVal = el.getAttribute('data-annual');
-                if (annualVal) el.textContent = annualVal;
-            });
         });
     })();
 
@@ -189,6 +270,12 @@ document.addEventListener('DOMContentLoaded', () => {
             anchor.addEventListener('click', function(e) {
                 const targetId = this.getAttribute('href');
                 if (targetId === '#') return;
+                
+                // Se for clique para ir até a seção de planos, garante que o pitch foi revelado
+                if (targetId === '#planos' && !PitchDelay.isRevealed()) {
+                    PitchDelay.reveal('anchor_click');
+                }
+
                 const targetEl = document.querySelector(targetId);
                 if (targetEl) {
                     e.preventDefault();
@@ -196,6 +283,15 @@ document.addEventListener('DOMContentLoaded', () => {
                         behavior: 'smooth',
                         block: 'start'
                     });
+
+                    if (targetId === '#planos') {
+                        const card = targetEl.querySelector('.pricing-card');
+                        if (card) {
+                            card.classList.remove('card-highlight-pulse');
+                            void card.offsetWidth;
+                            card.classList.add('card-highlight-pulse');
+                        }
+                    }
                 }
             });
         });
